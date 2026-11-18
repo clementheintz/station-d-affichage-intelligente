@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth bg-[#F5F5F7] text-[#1D1D1F]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Desk E-Paper — Portfolio Clem He</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js r128 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- SF Pro / Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'SF Mono', 'Menlo', 'monospace'],
+          },
+          colors: {
+            appleBg: '#F5F5F7',
+            appleDark: '#1D1D1F',
+            appleGray: '#86868B',
+            appleCard: '#FFFFFF',
+            appleBlue: '#0071E3',
+            appleBorder: 'rgba(0, 0, 0, 0.08)',
+          },
+          boxShadow: {
+            'apple': '0 8px 30px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
+            'apple-hover': '0 14px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03)',
+            'apple-glass': '0 20px 40px rgba(0,0,0,0.06)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Apple-style smooth typography and subtle glass effects */
+    body {
+      letter-spacing: -0.015em;
+      -webkit-font-smoothing: antialiased;
+    }
+    .apple-blur {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .gradient-text {
+      background: linear-gradient(180deg, #1D1D1F 0%, #434344 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-[#F5F5F7] text-[#1D1D1F] font-sans antialiased selection:bg-[#0071E3]/15 selection:text-[#0071E3]">
+
+  <!-- Apple Global Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-[#F5F5F7]/80 apple-blur border-b border-black/[0.06] transition-all">
+    <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5 text-xs font-semibold tracking-tight text-[#1D1D1F] hover:opacity-80 transition-opacity">
+        <div class="w-6 h-6 rounded-lg bg-black text-white flex items-center justify-center font-mono text-[11px] font-bold shadow-sm">
+          CH
+        </div>
+        <span class="font-medium text-sm">clem he <span class="text-[#86868B] font-normal">/ studio</span></span>
+      </a>
+      
+      <nav class="hidden md:flex items-center gap-8 text-[13px] font-normal text-[#1D1D1F]/75">
+        <a href="#apercu-3d" class="hover:text-black transition-colors">Modèle 3D</a>
+        <a href="#simulator" class="hover:text-black transition-colors">Simulateur</a>
+        <a href="#architecture" class="hover:text-black transition-colors">Architecture</a>
+        <a href="#cablage" class="hover:text-black transition-colors">Électronique</a>
+        <a href="#code" class="hover:text-black transition-colors">Code Source</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="#code" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1D1D1F] text-white text-xs font-medium hover:bg-black/85 transition-all shadow-xs">
+          <span>GitHub</span>
+          <svg class="w-3.5 h-3.5 opacity-70" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Apple-Style : Pro, Clean, Typographique -->
+  <section class="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-black/[0.08] shadow-xs text-xs font-medium text-[#86868B] mb-6">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#34C759]"></span>
+      <span>Projet Hardware &amp; Systèmes Embarqués</span>
+    </div>
+    
+    <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight gradient-text max-w-4xl mx-auto leading-[1.08]">
+      Smart Desk E-Paper.
+    </h1>
+    <p class="mt-6 text-lg sm:text-2xl text-[#86868B] max-w-2xl mx-auto font-normal leading-relaxed">
+      L’alliance de l’affichage à encre électronique et de l’écosystème Apple. Minimaliste, permanent et autonome.
+    </p>
+
+    <!-- Badges / Specs Pill -->
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-2.5 text-xs text-[#1D1D1F]">
+      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">ESP32-S3 N16R8</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">Waveshare 4.2″ (400×300)</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">Boîtier PLA Gold</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">iCloud &amp; Pronote Sync</span>
+    </div>
+  </section>
+
+  <!-- Section 3D & Live Simulator en Bento Apple -->
+  <section id="apercu-3d" class="max-w-6xl mx-auto px-6 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+      <!-- Carte Bento 1 : Visionneur 3D Studio -->
+      <div class="lg:col-span-7 bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-xs uppercase tracking-wider font-semibold text-[#86868B]">Conception CAD &amp; 3D</span>
+              <h3 class="text-xl font-semibold text-[#1D1D1F] tracking-tight mt-0.5">Boîtier usiné PLA Doré</h3>
+            </div>
+            <span class="text-xs font-mono text-[#86868B] bg-[#F5F5F7] px-2.5 py-1 rounded-full">136 × 92.9 × 38 mm</span>
+          </div>
+
+          <!-- Canvas 3D interactif -->
+          <div id="canvas-3d-wrapper" class="relative w-full h-[380px] sm:h-[440px] rounded-2xl overflow-hidden bg-gradient-to-b from-[#FAFAF8] to-[#EFEFEA] cursor-grab active:cursor-grabbing border border-black/[0.04]">
+            <canvas id="enclosure-canvas" class="w-full h-full block"></canvas>
+            <div id="view-badge" class="absolute bottom-4 left-4 px-3 py-1.5 rounded-full bg-white/85 apple-blur border border-black/[0.06] text-xs font-medium text-[#1D1D1F] shadow-xs pointer-events-none flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
+              <span>Vue : Assemblage complet</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons de contrôle de vue style Apple segmented controller -->
+        <div class="mt-4 p-1 bg-[#F5F5F7] rounded-2xl flex items-center gap-1 border border-black/[0.04]">
+          <button type="button" id="view-btn-assembly" onclick="setEnclosureView('assembly')"
+                  class="flex-1 py-2 px-3 rounded-xl text-xs font-medium bg-white text-[#1D1D1F] shadow-xs transition-all text-center">
+            Complet
+          </button>
+          <button type="button" id="view-btn-usb" onclick="setEnclosureView('usb')"
+                  class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
+            Port USB-C
+          </button>
+          <button type="button" id="view-btn-exploded" onclick="setEnclosureView('exploded')"
+                  class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
+            Vue Éclatée
+          </button>
+          <button type="button" id="view-btn-back" onclick="setEnclosureView('back')"
+                  class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
+            Fixation Murale
+          </button>
+        </div>
+      </div>
+
+      <!-- Carte Bento 2 : Simulateur Interactif E-Paper -->
+      <div id="simulator" class="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-black/[0.06] shadow-apple flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs uppercase tracking-wider font-semibold text-[#86868B]">Simulateur Firmware</span>
+            <span id="sync-status" class="inline-flex items-center gap-1.5 text-xs font-medium text-[#1A7F37] bg-[#E8F8ED] px-3 py-1 rounded-full">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#2DA44E] animate-pulse"></span>
+              Synchronisé
+            </span>
+          </div>
+
+          <h3 class="text-xl font-semibold text-[#1D1D1F] tracking-tight">Rendu Dalle E-Ink GxEPD2</h3>
+          <p class="text-sm text-[#86868B] mt-1.5 leading-relaxed">
+            L’écran 3D se met à jour en temps réel avec le même algorithme que le firmware C++ (400×300 px monochrome).
+          </p>
+
+          <!-- Formulaire Apple-like -->
+          <form id="task-form" class="mt-6 flex gap-2">
+            <input type="text" id="new-task-input" maxlength="32" placeholder="Ajouter un rappel iOS..."
+                   class="flex-1 px-4 py-2.5 rounded-xl bg-[#F5F5F7] border border-transparent text-xs font-medium focus:bg-white focus:border-[#0071E3] focus:outline-none transition-all placeholder:text-[#86868B]">
+            <button type="submit" class="px-4 py-2.5 rounded-xl bg-[#0071E3] text-white text-xs font-medium hover:bg-[#0077ED] transition-colors shadow-xs">
+              Ajouter
+            </button>
+          </form>
+
+          <!-- Liste des tâches interactive -->
+          <div class="mt-6">
+            <div class="flex items-center justify-between text-xs font-medium text-[#86868B] mb-2.5">
+              <span>RAPPELS SYNCHRONISÉS</span>
+              <span id="task-counter" class="font-mono">3 tâches</span>
+            </div>
+            <ul id="interactive-tasks-list" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+              <!-- Injecté en JS -->
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-6 mt-6 border-t border-black/[0.06]">
+          <button type="button" onclick="simulateIphoneSync()"
+                  class="w-full py-3 px-4 rounded-xl bg-[#F5F5F7] hover:bg-[#EBEBEF] text-[#1D1D1F] text-xs font-semibold flex items-center justify-center gap-2 transition-all border border-black/[0.04]">
+            <svg class="w-4 h-4 text-[#0071E3]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            <span>Simuler déclencheur Raccourci iPhone</span>
+          </button>
+          <p class="text-[11px] text-[#86868B] text-center mt-2 font-mono">
+            Polling 15s via HTTPS (Google Apps Script Gateway)
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 3 : Architecture en 4 cartes Bento Apple -->
+  <section id="architecture" class="max-w-6xl mx-auto px-6 py-16">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Architecture &amp; Data Pipeline</span>
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#1D1D1F] mt-1">Conçu pour l'efficacité absolue.</h2>
+      <p class="text-sm sm:text-base text-[#86868B] mt-3">
+        Zéro bouton. Aucune configuration requise sur l'ESP32 grâce au traitement distribué dans le cloud.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <div class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all">
+        <div class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
+          01
+        </div>
+        <h4 class="font-semibold text-base text-[#1D1D1F]">Apple iCloud &amp; Pronote</h4>
+        <p class="text-xs text-[#86868B] mt-2.5 leading-relaxed">
+          À chaque fermeture de l’application <strong class="text-[#1D1D1F]">Rappels</strong> sur iOS, une automatisation envoie les tâches actives via requête HTTP sécurisée.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all">
+        <div class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
+          02
+        </div>
+        <h4 class="font-semibold text-base text-[#1D1D1F]">Google Apps Script</h4>
+        <p class="text-xs text-[#86868B] mt-2.5 leading-relaxed">
+          Agrège l’emploi du temps ICS, recalcule les fuseaux horaires en <code class="font-mono text-[#1D1D1F]">Europe/Paris</code> et génère un jeton <code class="font-mono text-[#1D1D1F]">lastUpdate</code> compact.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all">
+        <div class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
+          03
+        </div>
+        <h4 class="font-semibold text-base text-[#1D1D1F]">Polling ESP32-S3</h4>
+        <p class="text-xs text-[#86868B] mt-2.5 leading-relaxed">
+          Vérification ultra-rapide toutes les 15 secondes. Si le condensé n'a pas bougé, la dalle reste figée sans aucune consommation énergétique parasite.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all">
+        <div class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
+          04
+        </div>
+        <h4 class="font-semibold text-base text-[#1D1D1F]">Dalle E-Paper GxEPD2</h4>
+        <p class="text-xs text-[#86868B] mt-2.5 leading-relaxed">
+          Rafraîchissement partiel rapide chaque minute pour l'horloge NTP synchronisée, et cycle de rafraîchissement complet uniquement lors d’un changement d’agenda.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 4 : Schéma de Câblage Électronique -->
+  <section id="cablage" class="max-w-6xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div>
+        <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Hardware &amp; Pinout</span>
+        <h2 class="text-3xl font-bold tracking-tight text-[#1D1D1F] mt-1">Câblage SPI ESP32-S3 ↔ Waveshare 4.2″</h2>
+      </div>
+      <p class="text-xs sm:text-sm text-[#86868B] max-w-md">
+        Brochage direct optimisé pour le bus SPI matériel et les broches de contrôle de busy et reset.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      
+      <!-- Schéma vectoriel ultra-pro -->
+      <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple">
+        <svg viewBox="0 0 600 410" class="w-full h-auto drop-shadow-xs" role="img" aria-label="Schéma de câblage">
+          <rect width="600" height="410" rx="20" fill="#FAFAF8"/>
+          <!-- ESP32-S3 board -->
+          <rect x="95" y="65" width="125" height="305" rx="16" fill="#1D1D1F"/>
+          <rect x="122" y="82" width="71" height="58" rx="8" fill="#424245"/>
+          <text x="157" y="115" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600">ESP32-S3</text>
+          <rect x="142" y="356" width="31" height="14" rx="4" fill="#86868B"/>
+
+          <!-- Broches Gauche ESP32 -->
+          <text x="115" y="175" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">4</text>
+          <text x="115" y="205" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">16</text>
+          <text x="115" y="235" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">17</text>
+          <text x="115" y="265" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">5</text>
+
+          <!-- Broches Droite ESP32 -->
+          <text x="200" y="175" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">12</text>
+          <text x="200" y="205" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">11</text>
+          <text x="200" y="315" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">GND</text>
+          <text x="200" y="345" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">3V3</text>
+
+          <!-- Module Waveshare 4.2" -->
+          <rect x="385" y="125" width="175" height="225" rx="16" fill="#0A369D"/>
+          <rect x="448" y="148" width="96" height="178" rx="8" fill="#F5F5F7"/>
+          <text x="496" y="242" text-anchor="middle" fill="#1D1D1F" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600">e-Paper 4.2″</text>
+
+          <!-- Pins Waveshare -->
+          <text x="398" y="164" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">BUSY</text>
+          <text x="398" y="186" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">RST</text>
+          <text x="398" y="208" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">DC</text>
+          <text x="398" y="230" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">CS</text>
+          <text x="398" y="252" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">DIN</text>
+          <text x="398" y="274" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">CLK</text>
+          <text x="398" y="296" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">GND</text>
+          <text x="398" y="318" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">VCC</text>
+
+          <!-- Tracé propre des 8 câbles à 90° -->
+          <polyline points="95,171 32,171 32,20 355,20 355,160 385,160" fill="none" stroke="#AF52DE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="95,201 44,201 44,31 343,31 343,182 385,182" fill="none" stroke="#8E8E93" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="95,231 56,231 56,42 331,42 331,204 385,204" fill="none" stroke="#34C759" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="95,261 68,261 68,53 319,53 319,226 385,226" fill="none" stroke="#FF9500" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="220,171 290,171 290,270 385,270" fill="none" stroke="#FFCC00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="220,201 304,201 304,248 385,248" fill="none" stroke="#0071E3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="220,311 275,311 275,292 385,292" fill="none" stroke="#A2845E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="220,341 295,341 295,314 385,314" fill="none" stroke="#636366" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Points de contact dorés -->
+          <circle cx="95" cy="171" r="3.5" fill="#D4AF37"/><circle cx="385" cy="160" r="3.5" fill="#D4AF37"/>
+          <circle cx="95" cy="201" r="3.5" fill="#D4AF37"/><circle cx="385" cy="182" r="3.5" fill="#D4AF37"/>
+          <circle cx="95" cy="231" r="3.5" fill="#D4AF37"/><circle cx="385" cy="204" r="3.5" fill="#D4AF37"/>
+          <circle cx="95" cy="261" r="3.5" fill="#D4AF37"/><circle cx="385" cy="226" r="3.5" fill="#D4AF37"/>
+          <circle cx="220" cy="171" r="3.5" fill="#D4AF37"/><circle cx="385" cy="270" r="3.5" fill="#D4AF37"/>
+          <circle cx="220" cy="201" r="3.5" fill="#D4AF37"/><circle cx="385" cy="248" r="3.5" fill="#D4AF37"/>
+          <circle cx="220" cy="311" r="3.5" fill="#D4AF37"/><circle cx="385" cy="292" r="3.5" fill="#D4AF37"/>
+          <circle cx="220" cy="341" r="3.5" fill="#D4AF37"/><circle cx="385" cy="314" r="3.5" fill="#D4AF37"/>
+        </svg>
+      </div>
+
+      <!-- Table des connexions Apple Style -->
+      <div class="lg:col-span-6 bg-white rounded-3xl border border-black/[0.06] shadow-apple overflow-hidden">
+        <div class="px-6 py-4 border-b border-black/[0.06] bg-[#FAFAF8] flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-[#86868B]">Affectation des 8 broches</span>
+          <span class="text-xs font-mono text-[#0071E3]">Bus SPI</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <tbody class="divide-y divide-black/[0.04]">
+              <tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+                <td class="py-3 px-6 flex items-center gap-2.5 font-medium text-[#1D1D1F]">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#636366]"></span> Gris
+                </td>
+                <td class="py-3 px-4 font-mono font-medium text-[#1D1D1F]">VCC</td>
+                <td class="py-3 px-4 font-mono text-[#0071E3] font-semibold">3V3</td>
+                <td class="py-3 px-6 text-[#86868B]">Alimentation 3.3V</td>
+              </tr>
+              <tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+                <td class="py-3 px-6 flex items-center gap-2.5 font-medium text-[#1D1D1F]">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#A2845E]"></span> Marron
+                </td>
+                <td class="py-3 px-4 font-mono font-medium text-[#1D1D1F]">GND</td>
+                <td class="py-3 px-4 font-mono text-[#0071E3] font-semibold">GND</td>
+                <td class="py-3 px-6 text-[#86868B]">Masse commune</td>
+              </tr>
+              <tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+                <td class="py-3 px-6 flex items-center gap-2.5 font-medium text-[#1D1D1F]">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#0071E3]"></span> Bleu
+                </td>
+                <td class="py-3 px-4 font-mono font-medium text-[#1D1D1F]">DIN</td>
+                <td class="py-3 px-4 font-mono text-[#0071E3] font-semibold">GPIO 11</td>
+                <td class="py-3 px-6 text-[#86868B]">MOSI (Données SPI)</td>
+              </tr>
+              <tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+                <td class="py-3 px-6 flex items-center gap-2.5 font-medium text-[#1D1D1F]">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#FFCC00]"></span> Jaune
+                </td>
+                <td class="py-3 px-4 font-mono font-medium text-[#1D1D1F]">CLK</td>
+                <td class="py-3 px-4 font-mono text-[#0071E3] font-semibold">GPIO 12</td>
+                <td class="py-3 px-6 text-[#86868B]">Horloge SPI (SCK)</td>
+              </tr>
+              <tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+                <td class="py-3 px-6 flex items-center gap-2.5 font-medium text-[#1D1D1F]">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#FF9500]"></span> Orange
+                </td>
+                <td class="py-3 px-4 font-mono font-medium text-[#1D1D1F]">CS</td>
+                <td class="py-3 px-4 font-mono text-[#0071E3] font-semibold">GPIO 5</td>
+                <td class="py-3 px-6 text-[#86868B]">Chip Select</td>
+              </tr>
+              <tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+                <td class="py-3 px-6 flex items-center gap-2.5 font-medium text-[#1D1D1F]">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#34C759]"></span> Vert
+                </td>
+                <td class="py-3 px-4 font-mono font-medium text-[#1D1D1F]">DC</td>
+                <td class="py-3 px-4 font-mono text-[#0071E3] font-semibold">GPIO 17</td>
+                <td class="py-3 px-6 text-[#86868B]">Data / Command</td>
+              </tr>
+              <tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+                <td class="py-3 px-6 flex items-center gap-2.5 font-medium text-[#1D1D1F]">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#8E8E93]"></span> Blanc
+                </td>
+                <td class="py-3 px-4 font-mono font-medium text-[#1D1D1F]">RST</td>
+                <td class="py-3 px-4 font-mono text-[#0071E3] font-semibold">GPIO 16</td>
+                <td class="py-3 px-6 text-[#86868B]">Reset matériel</td>
+              </tr>
+              <tr class="hover:bg-[#F5F5F7]/70 transition-colors">
+                <td class="py-3 px-6 flex items-center gap-2.5 font-medium text-[#1D1D1F]">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#AF52DE]"></span> Violet
+                </td>
+                <td class="py-3 px-4 font-mono font-medium text-[#1D1D1F]">BUSY</td>
+                <td class="py-3 px-4 font-mono text-[#0071E3] font-semibold">GPIO 4</td>
+                <td class="py-3 px-6 text-[#86868B]">Indicateur état dalle</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 5 : Explorateur de Code macOS Style -->
+  <section id="code" class="max-w-6xl mx-auto px-6 py-12 mb-16">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Dépôt Open Source</span>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#1D1D1F] mt-1">Code Source &amp; Fichiers 3D</h2>
+      </div>
+      <button type="button" id="copy-code-btn" onclick="copyCurrentCode()"
+              class="px-4 py-2 rounded-xl bg-white border border-black/[0.08] text-xs font-semibold text-[#1D1D1F] hover:bg-[#F5F5F7] shadow-xs transition-all flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5 text-[#86868B]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span>Copier</span>
+      </button>
+    </div>
+
+    <!-- macOS Terminal / Window Card -->
+    <div class="bg-[#1E1E1E] rounded-3xl overflow-hidden shadow-apple-glass border border-black/10">
+      <!-- Window Title Bar -->
+      <div class="px-5 py-3.5 bg-[#282828] border-b border-white/[0.06] flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-[#FF5F56] inline-block shadow-xs"></span>
+          <span class="w-3 h-3 rounded-full bg-[#FFBD2E] inline-block shadow-xs"></span>
+          <span class="w-3 h-3 rounded-full bg-[#27C93F] inline-block shadow-xs"></span>
+          <span class="ml-2 text-xs font-mono text-[#86868B]">smart-desk-epaper</span>
+        </div>
+
+        <!-- Segmented Tab Picker -->
+        <div class="flex items-center gap-1 bg-[#1E1E1E] p-1 rounded-xl text-xs font-mono">
+          <button type="button" id="tab-btn-cpp" onclick="switchCodeTab('cpp')"
+                  class="px-3 py-1 rounded-lg bg-[#3A3A3C] text-white font-medium transition-all">
+            main.cpp
+          </button>
+          <button type="button" id="tab-btn-gs" onclick="switchCodeTab('gs')"
+                  class="px-3 py-1 rounded-lg text-[#86868B] hover:text-white transition-all">
+            Code.gs
+          </button>
+          <button type="button" id="tab-btn-scad" onclick="switchCodeTab('scad')"
+                  class="px-3 py-1 rounded-lg text-[#86868B] hover:text-white transition-all">
+            boitier.scad
+          </button>
+        </div>
+      </div>
+
+      <!-- Code viewer -->
+      <pre class="p-6 text-[#E5E5EA] font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto max-h-[460px] selection:bg-[#0071E3]/40"><code id="code-display"></code></pre>
+    </div>
+  </section>
+
+  <!-- Apple Global Footer -->
+  <footer class="border-t border-black/[0.08] bg-[#F5F5F7] py-12 text-[#86868B] text-xs font-sans">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        Copyright © 2025 <strong class="text-[#1D1D1F]">Clem He</strong>. Tous droits réservés.
+      </div>
+      <div class="flex items-center gap-6">
+        <span>ESP32-S3</span>
+        <span>Waveshare 4.2″</span>
+        <span>Three.js 3D</span>
+        <span>Apple Shortcuts API</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Three.js + E-Paper Renderer + Tabs -->
+  <script>
+    // =========================================================================
+    // 1. GESTION DE LA DALLE E-PAPER (CANVAS TEXTURE 400x300)
+    // =========================================================================
+    const epaperState = {
+      events: [
+        { time: '08:30', title: 'Mécanique du vol' },
+        { time: '10:30', title: 'Propulsion aéro' },
+        { time: '14:00', title: 'TP Avionique' },
+        { time: '16:15', title: 'Projet ESP32' }
+      ],
+      tasks: [
+        'Vérifier alim USB-C',
+        'Publier repo GitHub',
+        'Imprimer capot doré'
+      ],
+      lastSync: '09:58'
+    };
+
+    const epaperCanvas = document.createElement('canvas');
+    epaperCanvas.width = 400;
+    epaperCanvas.height = 300;
+    const epCtx = epaperCanvas.getContext('2d');
+    let screenTexture = null;
+
+    function fitText(str, maxLen) {
+      return str.length > maxLen ? str.substring(0, maxLen - 1) + '…' : str;
+    }
+
+    function renderEpaperTexture(invertFlash) {
+      epCtx.fillStyle = invertFlash ? '#EAEAE6' : '#111110';
+      epCtx.fillRect(0, 0, 400, 300);
+
+      epCtx.fillStyle = invertFlash ? '#111110' : '#F4F4F0';
+      epCtx.strokeStyle = invertFlash ? '#111110' : '#F4F4F0';
+      epCtx.lineWidth = 2;
+
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const jours = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
+      const mois = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+      const dateStr = `${jours[now.getDay()]} ${now.getDate()} ${mois[now.getMonth()]}`;
+
+      epCtx.font = 'bold 42px "JetBrains Mono", monospace';
+      epCtx.fillText(`${hh}:${mm}`, 14, 56);
+
+      epCtx.font = 'bold 14px "JetBrains Mono", monospace';
+      epCtx.fillText(dateStr, 14, 82);
+      epCtx.fillText(`maj ${epaperState.lastSync}`, 14, 104);
+
+      epCtx.beginPath();
+      epCtx.moveTo(170, 10);
+      epCtx.lineTo(170, 170);
+      epCtx.moveTo(10, 180);
+      epCtx.lineTo(390, 180);
+      epCtx.stroke();
+
+      epCtx.font = 'bold 20px "JetBrains Mono", monospace';
+      epCtx.fillText('AGENDA', 182, 32);
+
+      epCtx.font = 'bold 13px "JetBrains Mono", monospace';
+      let y = 58;
+      epaperState.events.slice(0, 4).forEach((ev) => {
+        epCtx.fillText(fitText(`${ev.time} ${ev.title}`, 21), 182, y);
+        y += 23;
+      });
+
+      epCtx.font = 'bold 20px "JetBrains Mono", monospace';
+      epCtx.fillText('RAPPELS', 14, 206);
+
+      epCtx.font = 'bold 13px "JetBrains Mono", monospace';
+      y = 232;
+      if (epaperState.tasks.length === 0) {
+        epCtx.fillText('Aucun rappel en cours', 14, y);
+      } else {
+        const show = epaperState.tasks.length > 3 ? 2 : epaperState.tasks.length;
+        for (let i = 0; i < show; i++) {
+          epCtx.fillText(`[ ] ${fitText(epaperState.tasks[i], 30)}`, 14, y);
+          y += 21;
+        }
+        if (epaperState.tasks.length > show) {
+          epCtx.fillText(`+${epaperState.tasks.length - show} autres...`, 14, y);
+        }
+      }
+
+      if (screenTexture) {
+        screenTexture.needsUpdate = true;
+      }
+    }
+
+    function triggerEpaperRefresh() {
+      const now = new Date();
+      epaperState.lastSync = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const badge = document.getElementById('sync-status');
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-[#FF9500] animate-spin"></span> Rafraîchissement…';
+      badge.className = 'inline-flex items-center gap-1.5 text-xs font-medium text-[#FF9500] bg-[#FFF8EB] px-3 py-1 rounded-full';
+
+      renderEpaperTexture(true);
+      setTimeout(() => {
+        renderEpaperTexture(false);
+        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-[#2DA44E] animate-pulse"></span> Synchronisé';
+        badge.className = 'inline-flex items-center gap-1.5 text-xs font-medium text-[#1A7F37] bg-[#E8F8ED] px-3 py-1 rounded-full';
+      }, 240);
+    }
+
+    function renderTasksUI() {
+      const list = document.getElementById('interactive-tasks-list');
+      const counter = document.getElementById('task-counter');
+      counter.textContent = `${epaperState.tasks.length} tâche${epaperState.tasks.length > 1 ? 's' : ''}`;
+      list.innerHTML = '';
+
+      epaperState.tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.className = 'flex items-center justify-between px-3.5 py-2.5 rounded-2xl bg-[#F5F5F7] border border-black/[0.03] text-xs font-medium text-[#1D1D1F]';
+        li.innerHTML = `
+          <span class="truncate pr-2 font-sans">${task}</span>
+          <button type="button" onclick="completeTask(${index})" class="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-white border border-black/[0.06] hover:bg-[#1D1D1F] hover:text-white transition-all shrink-0 shadow-xs">
+            Terminer ✓
+          </button>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function completeTask(index) {
+      epaperState.tasks.splice(index, 1);
+      renderTasksUI();
+      triggerEpaperRefresh();
+    }
+
+    function simulateIphoneSync() {
+      triggerEpaperRefresh();
+    }
+
+    document.getElementById('task-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('new-task-input');
+      const val = input.value.trim();
+      if (val) {
+        epaperState.tasks.unshift(val);
+        input.value = '';
+        renderTasksUI();
+        triggerEpaperRefresh();
+      }
+    });
+
+    // =========================================================================
+    // 2. MODÈLE 3D THREE.JS AVEC MATÉRIAU GOLD STUDIO APPLE
+    // =========================================================================
+    const SCAD = {
+      mod_L: 103.0,
+      mod_W: 78.5,
+      view_L: 84.8,
+      view_W: 63.6,
+      view_dy: 4.7,
+      esp_l: 65.0,
+      esp_w: 25.4,
+      wall: 2.0,
+      plate_t: 3.0,
+      cover_t: 4.0,
+      corner_r: 4.0,
+      outer_w: 136.0,
+      outer_h: 92.9,
+      front_depth: 38.0
+    };
+
+    let scene, camera, renderer;
+    let groupFront, groupPlatine, groupCover;
+    let currentViewMode = 'assembly';
+    let targetRotationX = 0.14;
+    let targetRotationY = -0.32;
+    let currentRotationX = 0.14;
+    let currentRotationY = -0.32;
+    let targetZoom = 185;
+    let currentZoom = 185;
+    let pivotGroup;
+
+    function init3D() {
+      const wrapper = document.getElementById('canvas-3d-wrapper');
+      const canvas = document.getElementById('enclosure-canvas');
+
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(38, wrapper.clientWidth / wrapper.clientHeight, 1, 1000);
+      camera.position.set(0, 0, currentZoom);
+
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputEncoding = THREE.sRGBEncoding;
+
+      // Éclairage Apple Studio épuré
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.78);
+      scene.add(ambientLight);
+
+      const keyLight = new THREE.DirectionalLight(0xfff8e8, 1.05);
+      keyLight.position.set(90, 130, 150);
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0xe8f0ff, 0.6);
+      fillLight.position.set(-100, -50, 80);
+      scene.add(fillLight);
+
+      const bottomLight = new THREE.DirectionalLight(0xffe8b3, 0.5);
+      bottomLight.position.set(0, -120, 30);
+      scene.add(bottomLight);
+
+      pivotGroup = new THREE.Group();
+      scene.add(pivotGroup);
+
+      // Matériaux Apple Pro Gold
+      const goldMaterial = new THREE.MeshStandardMaterial({
+        color: 0xD4AF37,
+        metalness: 0.45,
+        roughness: 0.28
+      });
+
+      const pcbBlueMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1E408A,
+        metalness: 0.2,
+        roughness: 0.5
+      });
+
+      const espBlackMaterial = new THREE.MeshStandardMaterial({
+        color: 0x1C1C1E,
+        metalness: 0.15,
+        roughness: 0.6
+      });
+
+      const metalShieldMaterial = new THREE.MeshStandardMaterial({
+        color: 0xD8DDE2,
+        metalness: 0.9,
+        roughness: 0.2
+      });
+
+      const brassMaterial = new THREE.MeshStandardMaterial({
+        color: 0xD9A738,
+        metalness: 0.8,
+        roughness: 0.3
+      });
+
+      // Groupe Face Avant
+      groupFront = new THREE.Group();
+      pivotGroup.add(groupFront);
+
+      const faceShape = new THREE.Shape();
+      const hw = SCAD.outer_w / 2;
+      const hh = SCAD.outer_h / 2;
+      const r = SCAD.corner_r;
+
+      faceShape.moveTo(-hw + r, -hh);
+      faceShape.lineTo(hw - r, -hh);
+      faceShape.quadraticCurveTo(hw, -hh, hw, -hh + r);
+      faceShape.lineTo(hw, hh - r);
+      faceShape.quadraticCurveTo(hw, hh, hw - r, hh);
+      faceShape.lineTo(-hw + r, hh);
+      faceShape.quadraticCurveTo(-hw, hh, -hw, hh - r);
+      faceShape.lineTo(-hw, -hh + r);
+      faceShape.quadraticCurveTo(-hw, -hh, -hw + r, -hh);
+
+      const vw = (SCAD.view_L + 1.6) / 2;
+      const vh = (SCAD.view_W + 1.6) / 2;
+      const winHole = new THREE.Path();
+      winHole.moveTo(-vw, -vh);
+      winHole.lineTo(-vw, vh);
+      winHole.lineTo(vw, vh);
+      winHole.lineTo(vw, -vh);
+      winHole.closePath();
+      faceShape.holes.push(winHole);
+
+      const frontPlateGeo = new THREE.ExtrudeGeometry(faceShape, { depth: SCAD.plate_t, bevelEnabled: true, bevelThickness: 0.4, bevelSize: 0.4, bevelSegments: 2 });
+      const frontPlate = new THREE.Mesh(frontPlateGeo, goldMaterial);
+      frontPlate.position.z = SCAD.front_depth / 2 - SCAD.plate_t;
+      groupFront.add(frontPlate);
+
+      // Parois
+      const wallsDepth = SCAD.front_depth - SCAD.plate_t;
+      const wallThick = SCAD.wall;
+      const rOut = SCAD.corner_r;
+      const rIn = Math.max(rOut - wallThick, 0.8);
+
+      const topWallGeo = new THREE.BoxGeometry(SCAD.outer_w - 2 * rOut, wallThick, wallsDepth);
+      const topWall = new THREE.Mesh(topWallGeo, goldMaterial);
+      topWall.position.set(0, SCAD.outer_h / 2 - wallThick / 2, -SCAD.front_depth / 2 + wallsDepth / 2);
+      groupFront.add(topWall);
+
+      const sideWallGeo = new THREE.BoxGeometry(wallThick, SCAD.outer_h - 2 * rOut, wallsDepth);
+      const leftWall = new THREE.Mesh(sideWallGeo, goldMaterial);
+      leftWall.position.set(-SCAD.outer_w / 2 + wallThick / 2, 0, -SCAD.front_depth / 2 + wallsDepth / 2);
+      const rightWall = new THREE.Mesh(sideWallGeo, goldMaterial);
+      rightWall.position.set(SCAD.outer_w / 2 - wallThick / 2, 0, -SCAD.front_depth / 2 + wallsDepth / 2);
+      groupFront.add(leftWall, rightWall);
+
+      [[-1, -1], [1, -1], [1, 1], [-1, 1]].forEach(([sx, sy]) => {
+        const arcShape = new THREE.Shape();
+        const cx = sx * (SCAD.outer_w / 2 - rOut);
+        const cy = sy * (SCAD.outer_h / 2 - rOut);
+        const startA = sx > 0 && sy > 0 ? 0 : sx < 0 && sy > 0 ? Math.PI / 2 : sx < 0 && sy < 0 ? Math.PI : -Math.PI / 2;
+        const endA = startA + Math.PI / 2;
+        arcShape.absarc(cx, cy, rOut, startA, endA, false);
+        arcShape.absarc(cx, cy, rIn, endA, startA, true);
+        arcShape.closePath();
+
+        const cornerGeo = new THREE.ExtrudeGeometry(arcShape, { depth: wallsDepth, bevelEnabled: false });
+        const cornerMesh = new THREE.Mesh(cornerGeo, goldMaterial);
+        cornerMesh.position.z = -SCAD.front_depth / 2;
+        groupFront.add(cornerMesh);
+      });
+
+      // Paroi USB
+      const botLen = SCAD.outer_w - 2 * rOut;
+      const botWallShape = new THREE.Shape();
+      botWallShape.moveTo(-botLen / 2, 0);
+      botWallShape.lineTo(botLen / 2, 0);
+      botWallShape.lineTo(botLen / 2, wallsDepth);
+      botWallShape.lineTo(-botLen / 2, wallsDepth);
+      botWallShape.closePath();
+
+      const usbW = 24.0;
+      const usbH = 9.0;
+      const usbR = usbH / 2;
+      const usbStraight = usbW - usbH;
+      const usbLocalZ = wallsDepth - 14.5;
+
+      const usbHole = new THREE.Path();
+      usbHole.moveTo(-usbStraight / 2, usbLocalZ - usbR);
+      usbHole.lineTo(usbStraight / 2, usbLocalZ - usbR);
+      usbHole.absarc(usbStraight / 2, usbLocalZ, usbR, -Math.PI / 2, Math.PI / 2, false);
+      usbHole.lineTo(-usbStraight / 2, usbLocalZ + usbR);
+      usbHole.absarc(-usbStraight / 2, usbLocalZ, usbR, Math.PI / 2, (3 * Math.PI) / 2, false);
+      usbHole.closePath();
+      botWallShape.holes.push(usbHole);
+
+      const botWallGeo = new THREE.ExtrudeGeometry(botWallShape, { depth: wallThick, bevelEnabled: false, curveSegments: 24 });
+      botWallGeo.rotateX(-Math.PI / 2);
+      const botWallMesh = new THREE.Mesh(botWallGeo, goldMaterial);
+      botWallMesh.position.set(0, -SCAD.outer_h / 2, -SCAD.front_depth / 2);
+      groupFront.add(botWallMesh);
+
+      // Texture Écran E-Paper Live
+      renderEpaperTexture(false);
+      screenTexture = new THREE.CanvasTexture(epaperCanvas);
+      screenTexture.minFilter = THREE.LinearFilter;
+      const screenGeo = new THREE.PlaneGeometry(SCAD.view_L + 1.4, SCAD.view_W + 1.4);
+      const screenMat = new THREE.MeshBasicMaterial({ map: screenTexture });
+      const screenMesh = new THREE.Mesh(screenGeo, screenMat);
+      screenMesh.position.set(0, 0, SCAD.front_depth / 2 - SCAD.plate_t - 0.1);
+      groupFront.add(screenMesh);
+
+      const pcbGeo = new THREE.BoxGeometry(SCAD.mod_L, SCAD.mod_W, 1.6);
+      const pcbMesh = new THREE.Mesh(pcbGeo, pcbBlueMaterial);
+      pcbMesh.position.set(0, -SCAD.view_dy, SCAD.front_depth / 2 - SCAD.plate_t - 2.2);
+      groupFront.add(pcbMesh);
+
+      const standoffGeo = new THREE.CylinderGeometry(2.4, 2.4, 8.8, 16);
+      standoffGeo.rotateX(Math.PI / 2);
+      [[-48.3, -36.0], [48.3, -36.0], [-48.3, 36.0], [48.3, 36.0]].forEach(([sx, sy]) => {
+        const st = new THREE.Mesh(standoffGeo, brassMaterial);
+        st.position.set(sx, sy - SCAD.view_dy, SCAD.front_depth / 2 - SCAD.plate_t - 6.6);
+        groupFront.add(st);
+      });
+
+      // Platine interne
+      groupPlatine = new THREE.Group();
+      pivotGroup.add(groupPlatine);
+
+      const zPlatine = SCAD.front_depth / 2 - SCAD.plate_t - 11.2;
+      const platineGeo = new THREE.BoxGeometry(SCAD.mod_L, SCAD.mod_W, 1.6);
+      const platineMesh = new THREE.Mesh(platineGeo, goldMaterial);
+      platineMesh.position.set(0, -SCAD.view_dy, zPlatine);
+      groupPlatine.add(platineMesh);
+
+      const espGroup = new THREE.Group();
+      const espBoard = new THREE.Mesh(new THREE.BoxGeometry(SCAD.esp_w, SCAD.esp_l, 1.6), espBlackMaterial);
+      espGroup.add(espBoard);
+
+      const espShield = new THREE.Mesh(new THREE.BoxGeometry(18, 25, 2.5), metalShieldMaterial);
+      espShield.position.set(0, 14, -2.0);
+      espGroup.add(espShield);
+
+      const usbGeo = new THREE.BoxGeometry(8.6, 6.5, 3.2);
+      const usb1 = new THREE.Mesh(usbGeo, metalShieldMaterial);
+      usb1.position.set(-6.2, -SCAD.esp_l / 2 + 1.2, 0.2);
+      const usb2 = new THREE.Mesh(usbGeo, metalShieldMaterial);
+      usb2.position.set(6.2, -SCAD.esp_l / 2 + 1.2, 0.2);
+      espGroup.add(usb1, usb2);
+
+      espGroup.position.set(0, -SCAD.view_dy - 5.5, zPlatine - 3.6);
+      groupPlatine.add(espGroup);
+
+      // Capot arrière
+      groupCover = new THREE.Group();
+      pivotGroup.add(groupCover);
+
+      const zCover = -SCAD.front_depth / 2 + SCAD.cover_t / 2;
+      const coverGeo = new THREE.BoxGeometry(SCAD.outer_w - 4.4, SCAD.outer_h - 4.4, SCAD.cover_t);
+      const coverMesh = new THREE.Mesh(coverGeo, goldMaterial);
+      coverMesh.position.set(0, 0, zCover);
+      groupCover.add(coverMesh);
+
+      const studGeo = new THREE.CylinderGeometry(5.0, 4.0, 2.2, 24);
+      studGeo.rotateX(Math.PI / 2);
+      [[17, -10], [-17, 10]].forEach(([rx, ry]) => {
+        const stud = new THREE.Mesh(studGeo, goldMaterial);
+        stud.position.set(rx, ry, -SCAD.front_depth / 2 - 1.1);
+        groupCover.add(stud);
+      });
+
+      // Drag & Zoom
+      let isDragging = false;
+      let prevX = 0;
+      let prevY = 0;
+
+      wrapper.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        prevX = e.clientX;
+        prevY = e.clientY;
+      });
+      window.addEventListener('mouseup', () => { isDragging = false; });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        targetRotationY += (e.clientX - prevX) * 0.008;
+        targetRotationX += (e.clientY - prevY) * 0.008;
+        targetRotationX = Math.max(-1.45, Math.min(1.45, targetRotationX));
+        prevX = e.clientX;
+        prevY = e.clientY;
+      });
+
+      wrapper.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          prevX = e.touches[0].clientX;
+          prevY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+      window.addEventListener('touchend', () => { isDragging = false; });
+      wrapper.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        targetRotationY += (e.touches[0].clientX - prevX) * 0.01;
+        targetRotationX += (e.touches[0].clientY - prevY) * 0.01;
+        targetRotationX = Math.max(-1.45, Math.min(1.45, targetRotationX));
+        prevX = e.touches[0].clientX;
+        prevY = e.touches[0].clientY;
+      }, { passive: true });
+
+      wrapper.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        targetZoom += e.deltaY * 0.12;
+        targetZoom = Math.max(115, Math.min(270, targetZoom));
+      }, { passive: false });
+
+      window.addEventListener('resize', () => {
+        if (!wrapper.clientWidth || !wrapper.clientHeight) return;
+        camera.aspect = wrapper.clientWidth / wrapper.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
+      });
+
+      animate3D();
+    }
+
+    function setEnclosureView(mode) {
+      currentViewMode = mode;
+      const badge = document.getElementById('view-badge');
+
+      ['assembly', 'usb', 'exploded', 'back'].forEach((m) => {
+        const btn = document.getElementById(`view-btn-${m}`);
+        if (m === mode) {
+          btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-medium bg-white text-[#1D1D1F] shadow-xs transition-all text-center';
+        } else {
+          btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center';
+        }
+      });
+
+      if (mode === 'assembly') {
+        targetRotationX = 0.14;
+        targetRotationY = -0.32;
+        targetZoom = 185;
+        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-[#D4AF37]"></span><span>Vue : Assemblage complet</span>';
+      } else if (mode === 'usb') {
+        targetRotationX = -1.18;
+        targetRotationY = 0.12;
+        targetZoom = 148;
+        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-[#0071E3]"></span><span>Vue : Double USB-C (24 × 9 mm)</span>';
+      } else if (mode === 'exploded') {
+        targetRotationX = 0.22;
+        targetRotationY = -0.68;
+        targetZoom = 225;
+        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-[#FF9500]"></span><span>Vue : Éclatée multi-composants</span>';
+      } else if (mode === 'back') {
+        targetRotationX = 0.12;
+        targetRotationY = Math.PI - 0.28;
+        targetZoom = 185;
+        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-[#8E8E93]"></span><span>Vue : Face arrière &amp; Rail mural</span>';
+      }
+    }
+
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+
+      currentRotationX += (targetRotationX - currentRotationX) * 0.1;
+      currentRotationY += (targetRotationY - currentRotationY) * 0.1;
+      currentZoom += (targetZoom - currentZoom) * 0.1;
+
+      pivotGroup.rotation.x = currentRotationX;
+      pivotGroup.rotation.y = currentRotationY;
+      camera.position.z = currentZoom;
+
+      const targetFrontZ = currentViewMode === 'exploded' ? 24 : 0;
+      const targetCoverZ = currentViewMode === 'exploded' ? -28 : 0;
+      groupFront.position.z += (targetFrontZ - groupFront.position.z) * 0.12;
+      groupCover.position.z += (targetCoverZ - groupCover.position.z) * 0.12;
+
+      renderer.render(scene, camera);
+    }
+
+    // =========================================================================
+    // 3. CODE SNIPPETS
+    // =========================================================================
+    const CODE_SNIPPETS = {
+      cpp: `// =========================================================================
+// FIRMWARE ESP32-S3-N16R8 — GxEPD2 4.2" E-Paper & NTP
+// =========================================================================
+#include <Arduino.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <WiFiClientSecure.h>
+#include <ArduinoJson.h>
+#include <GxEPD2_BW.h>
+#include <time.h>
+
+#define WIFI_SSID     "AppleNetwork_5GHz"
+#define WIFI_PASSWORD "monSuperMotDePasse"
+#define API_URL       "https://script.google.com/macros/s/AKfycb.../exec"
+
+// Broches SPI Waveshare 4.2"
+// CS=5, DC=17, RST=16, BUSY=4
+GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT>
+    display(GxEPD2_420_GDEY042T81(5, 17, 16, 4));
+
+const unsigned long CHECK_INTERVAL = 15000; // 15 secondes
+unsigned long lastCheck = 0;
+String lastToken = "";
+
+void setup() {
+  Serial.begin(115200);
+  display.init(115200, true, 2, false);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  configTime(3600, 3600, "pool.ntp.org");
+}
+
+void loop() {
+  if (millis() - lastCheck > CHECK_INTERVAL) {
+    lastCheck = millis();
+    // Interrogation du script Google Apps Script et rafraîchissement
+  }
+}`,
+      gs: `// =========================================================================
+// GOOGLE APPS SCRIPT — Passerelle Apple iCloud / Pronote & ESP32
+// =========================================================================
+function doGet(e) {
+  const cache = CacheService.getScriptCache();
+  const lastUpdate = cache.get("lastUpdate") || new Date().toISOString();
+  
+  const payload = {
+    lastUpdate: lastUpdate,
+    events: getTodayEvents(),
+    tasks: getActiveReminders()
+  };
+  
+  return ContentService
+    .createTextOutput(JSON.stringify(payload))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  // Déclenché par le Raccourci iOS lors de la fermeture de Rappels
+  const rawData = JSON.parse(e.postData.contents);
+  CacheService.getScriptCache().put("tasks", JSON.stringify(rawData.tasks), 21600);
+  CacheService.getScriptCache().put("lastUpdate", new Date().toISOString(), 21600);
+  return ContentService.createTextOutput("OK");
+}`,
+      scad: `// =========================================================================
+// OPENSCAD — Boîtier usiné PLA Doré pour Waveshare 4.2" & ESP32-S3
+// =========================================================================
+$fn = 60;
+outer_w = 136.0;
+outer_h = 92.9;
+front_depth = 38.0;
+wall = 2.0;
+
+module boitier_complet() {
+  difference() {
+    // Volume externe avec angles arrondis
+    minkowski() {
+      cube([outer_w - 8, outer_h - 8, front_depth], center=true);
+      cylinder(r=4, h=0.01);
+    }
+    // Évidement dalle E-Paper 4.2" (84.8 x 63.6 mm)
+    translate([0, 0, front_depth/2 - 1.5])
+      cube([84.8, 63.6, 4], center=true);
+      
+    // Découpe oblongue USB-C dans paroi inférieure (24 x 9 mm)
+    translate([0, -outer_h/2, -front_depth/2 + 14.5])
+      hull() {
+        translate([-7.5, 0, 0]) rotate([90, 0, 0]) cylinder(d=9, h=10, center=true);
+        translate([7.5, 0, 0])  rotate([90, 0, 0]) cylinder(d=9, h=10, center=true);
+      }
+  }
+}
+boitier_complet();`
+    };
+
+    let currentCodeTab = 'cpp';
+
+    function switchCodeTab(tab) {
+      currentCodeTab = tab;
+      ['cpp', 'gs', 'scad'].forEach((t) => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tab) {
+          btn.className = 'px-3 py-1 rounded-lg bg-[#3A3A3C] text-white font-medium transition-all';
+        } else {
+          btn.className = 'px-3 py-1 rounded-lg text-[#86868B] hover:text-white transition-all';
+        }
+      });
+      document.getElementById('code-display').textContent = CODE_SNIPPETS[tab];
+    }
+
+    function copyCurrentCode() {
+      navigator.clipboard.writeText(CODE_SNIPPETS[currentCodeTab]).then(() => {
+        const btn = document.getElementById('copy-code-btn');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<span>Copié ✓</span>';
+        setTimeout(() => { btn.innerHTML = orig; }, 1800);
+      });
+    }
+
+    // Initialisation au chargement
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTasksUI();
+      switchCodeTab('cpp');
+      init3D();
+    });
+  </script>
+</body>
+</html>
