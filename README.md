@@ -52,7 +52,9 @@ Configurez vos identifiants Wi-Fi et l'URL de votre application web Google Apps 
 
 <<
 #define WIFI_SSID "VOTRE_WIFI"
+
 #define WIFI_PASSWORD "VOTRE_MOT_DE_PASSE"
+
 #define SCRIPT_URL "VOTRE_URL_GOOGLE_APPS_SCRIPT_EXEC"
 >>
 
