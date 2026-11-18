@@ -35,6 +35,29 @@ Le système synchronise automatiquement et sans aucun bouton physique vos agenda
 
 ---
 
+Configuration & Installation
+1. Backend (Google Apps Script)
+Créez un nouveau projet sur Google Apps Script.
+
+Collez le code du fichier backend/Code.gs (en y insérant vos liens iCal iCloud/Pronote et en activant le service Google Tasks).
+
+Déployez le script en tant qu'Application Web (accès autorisé pour Tout le monde).
+
+2. Firmware (ESP32-S3)
+Ouvrez le projet dans PlatformIO ou l'IDE Arduino.
+
+Installez les bibliothèques requises : GxEPD2, ArduinoJson, HTTPClient.
+
+Configurez vos identifiants Wi-Fi et l'URL de votre application web Google Apps Script dans src/main.cpp :
+
+<<
+#define WIFI_SSID "VOTRE_WIFI"
+#define WIFI_PASSWORD "VOTRE_MOT_DE_PASSE"
+#define SCRIPT_URL "VOTRE_URL_GOOGLE_APPS_SCRIPT_EXEC"
+>>
+
+Téléversez le code sur votre carte ESP32-S3.
+
 ## 📂 Structure du projet
 
 ```text
