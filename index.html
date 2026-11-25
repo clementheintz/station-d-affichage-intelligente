@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth bg-[#F5F5F7] text-[#1D1D1F]">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,9 @@
   <!-- SF Pro / Inter font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -42,17 +45,19 @@
       letter-spacing: -0.015em;
       -webkit-font-smoothing: antialiased;
     }
+
     .apple-blur {
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }
+
     .gradient-text {
       background: linear-gradient(180deg, #1D1D1F 0%, #434344 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    /* Effet de zoom fluide sur les onglets du header (sans fond de couleur) */
+    /* Effet de zoom fluide sur les onglets du header */
     .nav-zoom-link {
       display: inline-block;
       color: rgba(29, 29, 31, 0.72);
@@ -60,32 +65,188 @@
       transform-origin: center;
       transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
     }
+
     .nav-zoom-link:hover {
       color: #1D1D1F;
       transform: scale(1.15);
     }
+
     .nav-zoom-link.is-active {
       color: #0071E3;
       font-weight: 500;
       transform: scale(1.08);
     }
+
     .nav-zoom-link.is-active:hover {
       transform: scale(1.16);
     }
+
+    /* HUD Futuriste Latéral Gauche */
+    .hud-rail-fill {
+      height: 0%;
+      background: linear-gradient(180deg, #0071E3 0%, #00D4FF 60%, #D4AF37 100%);
+      box-shadow: 0 0 12px rgba(0, 113, 227, 0.55), 0 0 22px rgba(0, 212, 255, 0.35);
+      transition: height 0.1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .hud-laser-head {
+      box-shadow: 0 0 10px #00D4FF, 0 0 20px #0071E3;
+    }
+
+    .hud-node {
+      transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .hud-node .hud-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background: rgba(29, 29, 31, 0.22);
+      transition: all 0.28s ease;
+    }
+
+    .hud-node .hud-label {
+      opacity: 0.45;
+      transform: translateX(0);
+      transition: all 0.28s ease;
+    }
+
+    .hud-node:hover .hud-label {
+      opacity: 1;
+      transform: translateX(3px);
+    }
+
+    .hud-node.is-active .hud-dot {
+      width: 10px;
+      height: 10px;
+      background: #0071E3;
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.18), 0 0 12px rgba(0, 212, 255, 0.8);
+    }
+
+    .hud-node.is-active .hud-label {
+      opacity: 1;
+      color: #0071E3;
+      font-weight: 600;
+      transform: translateX(4px);
+    }
+
+    /* Effet de fondu progressif au défilement */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.08s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.16s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.24s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.32s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      .hud-rail-fill {
+        transition: none;
+      }
+    }
   </style>
 </head>
+
 <body class="bg-[#F5F5F7] text-[#1D1D1F] font-sans antialiased selection:bg-[#0071E3]/15 selection:text-[#0071E3]">
+
+  <!-- Barre de progression Futuriste Latérale Gauche (HUD Télémétrique) -->
+  <aside id="futuristic-scroll-hud" aria-label="Progression de lecture"
+    class="hidden xl:flex fixed left-5 top-1/2 -translate-y-1/2 z-40 flex-col items-start gap-3 px-3 py-4 rounded-2xl bg-white/65 apple-blur border border-black/[0.08] shadow-[0_12px_32px_rgba(0,0,0,0.06)] select-none">
+
+    <!-- En-tête télémétrique -->
+    <div class="flex items-center gap-1.5 text-[9px] font-mono tracking-widest uppercase text-[#86868B]">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#0071E3] animate-ping"></span>
+      <span>SYS.NAV</span>
+    </div>
+
+    <!-- Rail vertical + Repères de sections -->
+    <div class="relative flex items-stretch gap-3 my-1">
+      <!-- Track lumineux -->
+      <div class="relative w-[3px] h-80 rounded-full bg-black/[0.08] overflow-visible ml-1">
+        <!-- Graduations techniques -->
+        <div class="absolute inset-0 flex flex-col justify-between py-1 pointer-events-none">
+          <span class="w-2 h-[1px] -left-[2.5px] relative bg-black/20"></span>
+          <span class="w-1.5 h-[1px] -left-[1.5px] relative bg-black/15"></span>
+          <span class="w-2 h-[1px] -left-[2.5px] relative bg-black/20"></span>
+          <span class="w-1.5 h-[1px] -left-[1.5px] relative bg-black/15"></span>
+          <span class="w-2 h-[1px] -left-[2.5px] relative bg-black/20"></span>
+        </div>
+
+        <!-- Remplissage dynamique + pointe laser -->
+        <div id="scroll-progress-vertical" class="hud-rail-fill w-full rounded-full relative">
+          <span
+            class="hud-laser-head absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-1 rounded-full bg-[#00D4FF]"></span>
+        </div>
+      </div>
+
+      <!-- Points d'accès rapides aux sections -->
+      <div class="flex flex-col justify-between h-80 py-0.5 text-[10px] font-mono">
+        <a href="#apercu-3d" data-hud="apercu-3d" class="hud-node is-active flex items-center gap-2 text-[#1D1D1F]">
+          <span class="hud-dot"></span>
+          <span class="hud-label tracking-wider">01 3D</span>
+        </a>
+        <a href="#architecture" data-hud="architecture" class="hud-node flex items-center gap-2 text-[#1D1D1F]">
+          <span class="hud-dot"></span>
+          <span class="hud-label tracking-wider">02 ARCH</span>
+        </a>
+        <a href="#cablage" data-hud="cablage" class="hud-node flex items-center gap-2 text-[#1D1D1F]">
+          <span class="hud-dot"></span>
+          <span class="hud-label tracking-wider">03 ELEC</span>
+        </a>
+        <a href="#code" data-hud="code" class="hud-node flex items-center gap-2 text-[#1D1D1F]">
+          <span class="hud-dot"></span>
+          <span class="hud-label tracking-wider">04 CODE</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Pourcentage digital -->
+    <div class="w-full pt-2 border-t border-black/[0.06] flex items-center justify-between gap-2 font-mono text-[10px]">
+      <span class="text-[#86868B]">DEPTH</span>
+      <span id="scroll-percent-text" class="font-semibold text-[#0071E3] tabular-nums">00%</span>
+    </div>
+  </aside>
 
   <!-- Apple Global Navigation Bar -->
   <header class="sticky top-0 z-50 bg-[#F5F5F7]/80 apple-blur border-b border-black/[0.06] transition-all">
     <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2.5 text-xs font-semibold tracking-tight text-[#1D1D1F] transition-transform duration-200 hover:scale-105">
-        <div class="w-6 h-6 rounded-lg bg-black text-white flex items-center justify-center font-mono text-[11px] font-bold shadow-sm">
+      <a href="#"
+        class="flex items-center gap-2.5 text-xs font-semibold tracking-tight text-[#1D1D1F] transition-transform duration-200 hover:scale-105">
+        <div
+          class="w-6 h-6 rounded-lg bg-black text-white flex items-center justify-center font-mono text-[11px] font-bold shadow-sm">
           CH
         </div>
         <span class="font-medium text-sm">clem he <span class="text-[#86868B] font-normal">/ studio</span></span>
       </a>
-      
+
       <nav aria-label="Navigation principale" class="hidden md:flex items-center gap-8 text-[13px] font-normal">
         <a href="#apercu-3d" data-nav="apercu-3d" class="nav-zoom-link is-active">Modèle 3D</a>
         <a href="#architecture" data-nav="architecture" class="nav-zoom-link">Architecture</a>
@@ -94,10 +255,14 @@
       </nav>
 
       <div class="flex items-center gap-3">
-        <a href="https://github.com/clementheintz/station-d-affichage-intelligente" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1D1D1F] text-white text-xs font-medium hover:bg-black/85 hover:scale-105 transition-all shadow-xs">
+        <a href="https://github.com/clementheintz/station-d-affichage-intelligente" target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1D1D1F] text-white text-xs font-medium hover:bg-black/85 hover:scale-105 transition-all shadow-xs">
           <span>GitHub</span>
           <svg class="w-3.5 h-3.5 opacity-70" fill="currentColor" viewBox="0 0 24 24">
-            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+            <path fill-rule="evenodd"
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+              clip-rule="evenodd" />
           </svg>
         </a>
       </div>
@@ -113,13 +278,15 @@
   </header>
 
   <!-- Hero Apple-Style : Pro, Clean, Typographique -->
-  <section class="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-black/[0.08] shadow-xs text-xs font-medium text-[#86868B] mb-6">
+  <section class="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center scroll-reveal">
+    <div
+      class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-black/[0.08] shadow-xs text-xs font-medium text-[#86868B] mb-6">
       <span class="w-1.5 h-1.5 rounded-full bg-[#34C759]"></span>
       <span>Projet Hardware &amp; Systèmes Embarqués</span>
     </div>
-    
-    <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight gradient-text max-w-4xl mx-auto leading-[1.08]">
+
+    <h1
+      class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight gradient-text max-w-4xl mx-auto leading-[1.08]">
       Smart Desk E-Paper.
     </h1>
     <p class="mt-6 text-lg sm:text-2xl text-[#86868B] max-w-2xl mx-auto font-normal leading-relaxed">
@@ -128,10 +295,14 @@
 
     <!-- Badges / Specs Pill -->
     <div class="mt-8 flex flex-wrap items-center justify-center gap-2.5 text-xs text-[#1D1D1F]">
-      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">ESP32-S3 N16R8</span>
-      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">Waveshare 4.2″ (400×300)</span>
-      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">Boîtier PLA Gold</span>
-      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">iCloud &amp; Pronote Sync</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">ESP32-S3
+        N16R8</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">Waveshare 4.2″
+        (400×300)</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">Boîtier PLA
+        Gold</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-white border border-black/[0.06] shadow-xs font-mono">iCloud &amp;
+        Pronote Sync</span>
     </div>
   </section>
 
@@ -140,20 +311,24 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 
       <!-- Carte Bento 1 : Visionneur 3D Studio -->
-      <div class="lg:col-span-7 bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple flex flex-col justify-between">
+      <div
+        class="lg:col-span-7 bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple flex flex-col justify-between scroll-reveal reveal-delay-1">
         <div>
           <div class="flex items-center justify-between mb-4">
             <div>
               <span class="text-xs uppercase tracking-wider font-semibold text-[#86868B]">Conception CAD &amp; 3D</span>
-              <h3 class="text-xl font-semibold text-[#1D1D1F] tracking-tight mt-0.5">Boîtier usiné PLA Doré</h3>
+              <h3 class="text-xl font-semibold text-[#1D1D1F] tracking-tight mt-0.5">Boîtier PLA Doré</h3>
             </div>
-            <span class="text-xs font-mono text-[#86868B] bg-[#F5F5F7] px-2.5 py-1 rounded-full">136 × 92.9 × 38 mm</span>
+            <span class="text-xs font-mono text-[#86868B] bg-[#F5F5F7] px-2.5 py-1 rounded-full">136 × 92.9 × 38
+              mm</span>
           </div>
 
           <!-- Canvas 3D interactif -->
-          <div id="canvas-3d-wrapper" class="relative w-full h-[380px] sm:h-[440px] rounded-2xl overflow-hidden bg-gradient-to-b from-[#FAFAF8] to-[#EFEFEA] cursor-grab active:cursor-grabbing border border-black/[0.04]">
+          <div id="canvas-3d-wrapper"
+            class="relative w-full h-[380px] sm:h-[440px] rounded-2xl overflow-hidden bg-gradient-to-b from-[#FAFAF8] to-[#EFEFEA] cursor-grab active:cursor-grabbing border border-black/[0.04]">
             <canvas id="enclosure-canvas" class="w-full h-full block"></canvas>
-            <div id="view-badge" class="absolute bottom-4 left-4 px-3 py-1.5 rounded-full bg-white/85 apple-blur border border-black/[0.06] text-xs font-medium text-[#1D1D1F] shadow-xs pointer-events-none flex items-center gap-1.5">
+            <div id="view-badge"
+              class="absolute bottom-4 left-4 px-3 py-1.5 rounded-full bg-white/85 apple-blur border border-black/[0.06] text-xs font-medium text-[#1D1D1F] shadow-xs pointer-events-none flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-[#D4AF37]"></span>
               <span>Vue : Assemblage complet</span>
             </div>
@@ -163,30 +338,32 @@
         <!-- Boutons de contrôle de vue style Apple segmented controller -->
         <div class="mt-4 p-1 bg-[#F5F5F7] rounded-2xl flex items-center gap-1 border border-black/[0.04]">
           <button type="button" id="view-btn-assembly" onclick="setEnclosureView('assembly')"
-                  class="flex-1 py-2 px-3 rounded-xl text-xs font-medium bg-white text-[#1D1D1F] shadow-xs transition-all text-center">
+            class="flex-1 py-2 px-3 rounded-xl text-xs font-medium bg-white text-[#1D1D1F] shadow-xs transition-all text-center">
             Complet
           </button>
           <button type="button" id="view-btn-usb" onclick="setEnclosureView('usb')"
-                  class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
+            class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
             Port USB-C
           </button>
           <button type="button" id="view-btn-exploded" onclick="setEnclosureView('exploded')"
-                  class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
+            class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
             Vue Éclatée
           </button>
           <button type="button" id="view-btn-back" onclick="setEnclosureView('back')"
-                  class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
+            class="flex-1 py-2 px-3 rounded-xl text-xs font-medium text-[#86868B] hover:text-[#1D1D1F] transition-all text-center">
             Fixation Murale
           </button>
         </div>
       </div>
 
       <!-- Carte Bento 2 : Simulateur Interactif E-Paper -->
-      <div id="simulator" class="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-black/[0.06] shadow-apple flex flex-col justify-between">
+      <div id="simulator"
+        class="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-black/[0.06] shadow-apple flex flex-col justify-between scroll-reveal reveal-delay-2">
         <div>
           <div class="flex items-center justify-between mb-4">
             <span class="text-xs uppercase tracking-wider font-semibold text-[#86868B]">Simulateur Firmware</span>
-            <span id="sync-status" class="inline-flex items-center gap-1.5 text-xs font-medium text-[#1A7F37] bg-[#E8F8ED] px-3 py-1 rounded-full">
+            <span id="sync-status"
+              class="inline-flex items-center gap-1.5 text-xs font-medium text-[#1A7F37] bg-[#E8F8ED] px-3 py-1 rounded-full">
               <span class="w-1.5 h-1.5 rounded-full bg-[#2DA44E] animate-pulse"></span>
               Synchronisé
             </span>
@@ -200,8 +377,9 @@
           <!-- Formulaire Apple-like -->
           <form id="task-form" class="mt-6 flex gap-2">
             <input type="text" id="new-task-input" maxlength="32" placeholder="Ajouter un rappel iOS..."
-                   class="flex-1 px-4 py-2.5 rounded-xl bg-[#F5F5F7] border border-transparent text-xs font-medium focus:bg-white focus:border-[#0071E3] focus:outline-none transition-all placeholder:text-[#86868B]">
-            <button type="submit" class="px-4 py-2.5 rounded-xl bg-[#0071E3] text-white text-xs font-medium hover:bg-[#0077ED] transition-colors shadow-xs">
+              class="flex-1 px-4 py-2.5 rounded-xl bg-[#F5F5F7] border border-transparent text-xs font-medium focus:bg-white focus:border-[#0071E3] focus:outline-none transition-all placeholder:text-[#86868B]">
+            <button type="submit"
+              class="px-4 py-2.5 rounded-xl bg-[#0071E3] text-white text-xs font-medium hover:bg-[#0077ED] transition-colors shadow-xs">
               Ajouter
             </button>
           </form>
@@ -220,9 +398,10 @@
 
         <div class="pt-6 mt-6 border-t border-black/[0.06]">
           <button type="button" onclick="simulateIphoneSync()"
-                  class="w-full py-3 px-4 rounded-xl bg-[#F5F5F7] hover:bg-[#EBEBEF] text-[#1D1D1F] text-xs font-semibold flex items-center justify-center gap-2 transition-all border border-black/[0.04]">
+            class="w-full py-3 px-4 rounded-xl bg-[#F5F5F7] hover:bg-[#EBEBEF] text-[#1D1D1F] text-xs font-semibold flex items-center justify-center gap-2 transition-all border border-black/[0.04]">
             <svg class="w-4 h-4 text-[#0071E3]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
             <span>Simuler déclencheur Raccourci iPhone</span>
           </button>
@@ -237,53 +416,68 @@
 
   <!-- Section 3 : Architecture en 4 cartes Bento Apple -->
   <section id="architecture" class="scroll-mt-20 max-w-6xl mx-auto px-6 py-16">
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Architecture &amp; Data Pipeline</span>
-      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#1D1D1F] mt-1">Conçu pour l'efficacité absolue.</h2>
+    <div class="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
+      <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Architecture &amp; Data
+        Pipeline</span>
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[#1D1D1F] mt-1">Conçu pour l'efficacité absolue.
+      </h2>
       <p class="text-sm sm:text-base text-[#86868B] mt-3">
         Zéro bouton. Aucune configuration requise sur l'ESP32 grâce au traitement distribué dans le cloud.
       </p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      
-      <div class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
+
+      <div
+        class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all scroll-reveal reveal-delay-1">
+        <div
+          class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
           01
         </div>
         <h4 class="font-semibold text-base text-[#1D1D1F]">Apple iCloud &amp; Pronote</h4>
         <p class="text-xs text-[#86868B] mt-2.5 leading-relaxed">
-          À chaque fermeture de l’application <strong class="text-[#1D1D1F]">Rappels</strong> sur iOS, une automatisation envoie les tâches actives via requête HTTP sécurisée.
+          À chaque fermeture de l’application <strong class="text-[#1D1D1F]">Rappels</strong> sur iOS, une
+          automatisation envoie les tâches actives via requête HTTP sécurisée.
         </p>
       </div>
 
-      <div class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
+      <div
+        class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all scroll-reveal reveal-delay-2">
+        <div
+          class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
           02
         </div>
         <h4 class="font-semibold text-base text-[#1D1D1F]">Google Apps Script</h4>
         <p class="text-xs text-[#86868B] mt-2.5 leading-relaxed">
-          Agrège l’emploi du temps ICS, recalcule les fuseaux horaires en <code class="font-mono text-[#1D1D1F]">Europe/Paris</code> et génère un jeton <code class="font-mono text-[#1D1D1F]">lastUpdate</code> compact.
+          Agrège l’emploi du temps ICS, recalcule les fuseaux horaires en <code
+            class="font-mono text-[#1D1D1F]">Europe/Paris</code> et génère un jeton <code
+            class="font-mono text-[#1D1D1F]">lastUpdate</code> compact.
         </p>
       </div>
 
-      <div class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
+      <div
+        class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all scroll-reveal reveal-delay-3">
+        <div
+          class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
           03
         </div>
         <h4 class="font-semibold text-base text-[#1D1D1F]">Polling ESP32-S3</h4>
         <p class="text-xs text-[#86868B] mt-2.5 leading-relaxed">
-          Vérification ultra-rapide toutes les 15 secondes. Si le condensé n'a pas bougé, la dalle reste figée sans aucune consommation énergétique parasite.
+          Vérification ultra-rapide toutes les 15 secondes. Si le condensé n'a pas bougé, la dalle reste figée sans
+          aucune consommation énergétique parasite.
         </p>
       </div>
 
-      <div class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
+      <div
+        class="bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple hover:shadow-apple-hover transition-all scroll-reveal reveal-delay-4">
+        <div
+          class="w-10 h-10 rounded-2xl bg-[#F5F5F7] flex items-center justify-center font-mono text-sm font-semibold text-[#1D1D1F] mb-5">
           04
         </div>
         <h4 class="font-semibold text-base text-[#1D1D1F]">Dalle E-Paper GxEPD2</h4>
         <p class="text-xs text-[#86868B] mt-2.5 leading-relaxed">
-          Rafraîchissement partiel rapide chaque minute pour l'horloge NTP synchronisée, et cycle de rafraîchissement complet uniquement lors d’un changement d’agenda.
+          Rafraîchissement partiel rapide chaque minute pour l'horloge NTP synchronisée, et cycle de rafraîchissement
+          complet uniquement lors d’un changement d’agenda.
         </p>
       </div>
 
@@ -292,7 +486,7 @@
 
   <!-- Section 4 : Électronique (Câblage SPI + Protocole de montage complet étape par étape) -->
   <section id="cablage" class="scroll-mt-20 max-w-6xl mx-auto px-6 py-12">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 scroll-reveal">
       <div>
         <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Hardware &amp; Pinout</span>
         <h2 class="text-3xl font-bold tracking-tight text-[#1D1D1F] mt-1">Câblage SPI ESP32-S3 ↔ Waveshare 4.2″</h2>
@@ -303,68 +497,104 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-      
+
       <!-- Schéma vectoriel ultra-pro -->
-      <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple">
+      <div
+        class="lg:col-span-6 bg-white rounded-3xl p-6 border border-black/[0.06] shadow-apple scroll-reveal reveal-delay-1">
         <svg viewBox="0 0 600 410" class="w-full h-auto drop-shadow-xs" role="img" aria-label="Schéma de câblage">
-          <rect width="600" height="410" rx="20" fill="#FAFAF8"/>
+          <rect width="600" height="410" rx="20" fill="#FAFAF8" />
           <!-- ESP32-S3 board -->
-          <rect x="95" y="65" width="125" height="305" rx="16" fill="#1D1D1F"/>
-          <rect x="122" y="82" width="71" height="58" rx="8" fill="#424245"/>
-          <text x="157" y="115" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600">ESP32-S3</text>
-          <rect x="142" y="356" width="31" height="14" rx="4" fill="#86868B"/>
+          <rect x="95" y="65" width="125" height="305" rx="16" fill="#1D1D1F" />
+          <rect x="122" y="82" width="71" height="58" rx="8" fill="#424245" />
+          <text x="157" y="115" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono, monospace"
+            font-size="11" font-weight="600">ESP32-S3</text>
+          <rect x="142" y="356" width="31" height="14" rx="4" fill="#86868B" />
 
           <!-- Broches Gauche ESP32 -->
-          <text x="115" y="175" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">4</text>
-          <text x="115" y="205" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">16</text>
-          <text x="115" y="235" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">17</text>
-          <text x="115" y="265" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">5</text>
+          <text x="115" y="175" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11"
+            font-weight="500">4</text>
+          <text x="115" y="205" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11"
+            font-weight="500">16</text>
+          <text x="115" y="235" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11"
+            font-weight="500">17</text>
+          <text x="115" y="265" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11"
+            font-weight="500">5</text>
 
           <!-- Broches Droite ESP32 -->
-          <text x="200" y="175" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">12</text>
-          <text x="200" y="205" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">11</text>
-          <text x="200" y="315" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">GND</text>
-          <text x="200" y="345" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500">3V3</text>
+          <text x="200" y="175" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11"
+            font-weight="500">12</text>
+          <text x="200" y="205" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11"
+            font-weight="500">11</text>
+          <text x="200" y="315" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11"
+            font-weight="500">GND</text>
+          <text x="200" y="345" text-anchor="end" fill="#E5E5EA" font-family="JetBrains Mono, monospace" font-size="11"
+            font-weight="500">3V3</text>
 
           <!-- Module Waveshare 4.2" -->
-          <rect x="385" y="125" width="175" height="225" rx="16" fill="#0A369D"/>
-          <rect x="448" y="148" width="96" height="178" rx="8" fill="#F5F5F7"/>
-          <text x="496" y="242" text-anchor="middle" fill="#1D1D1F" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600">e-Paper 4.2″</text>
+          <rect x="385" y="125" width="175" height="225" rx="16" fill="#0A369D" />
+          <rect x="448" y="148" width="96" height="178" rx="8" fill="#F5F5F7" />
+          <text x="496" y="242" text-anchor="middle" fill="#1D1D1F" font-family="JetBrains Mono, monospace"
+            font-size="11" font-weight="600">e-Paper 4.2″</text>
 
           <!-- Pins Waveshare -->
-          <text x="398" y="164" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">BUSY</text>
-          <text x="398" y="186" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">RST</text>
-          <text x="398" y="208" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">DC</text>
-          <text x="398" y="230" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">CS</text>
-          <text x="398" y="252" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">DIN</text>
-          <text x="398" y="274" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">CLK</text>
-          <text x="398" y="296" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">GND</text>
-          <text x="398" y="318" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">VCC</text>
+          <text x="398" y="164" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10"
+            font-weight="500">BUSY</text>
+          <text x="398" y="186" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10"
+            font-weight="500">RST</text>
+          <text x="398" y="208" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10"
+            font-weight="500">DC</text>
+          <text x="398" y="230" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10"
+            font-weight="500">CS</text>
+          <text x="398" y="252" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10"
+            font-weight="500">DIN</text>
+          <text x="398" y="274" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10"
+            font-weight="500">CLK</text>
+          <text x="398" y="296" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10"
+            font-weight="500">GND</text>
+          <text x="398" y="318" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10"
+            font-weight="500">VCC</text>
 
           <!-- Tracé propre des 8 câbles à 90° -->
-          <polyline points="95,171 32,171 32,20 355,20 355,160 385,160" fill="none" stroke="#AF52DE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="95,201 44,201 44,31 343,31 343,182 385,182" fill="none" stroke="#8E8E93" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="95,231 56,231 56,42 331,42 331,204 385,204" fill="none" stroke="#34C759" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="95,261 68,261 68,53 319,53 319,226 385,226" fill="none" stroke="#FF9500" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="220,171 290,171 290,270 385,270" fill="none" stroke="#FFCC00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="220,201 304,201 304,248 385,248" fill="none" stroke="#0071E3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="220,311 275,311 275,292 385,292" fill="none" stroke="#A2845E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="220,341 295,341 295,314 385,314" fill="none" stroke="#636366" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="95,171 32,171 32,20 355,20 355,160 385,160" fill="none" stroke="#AF52DE" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="95,201 44,201 44,31 343,31 343,182 385,182" fill="none" stroke="#8E8E93" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="95,231 56,231 56,42 331,42 331,204 385,204" fill="none" stroke="#34C759" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="95,261 68,261 68,53 319,53 319,226 385,226" fill="none" stroke="#FF9500" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="220,171 290,171 290,270 385,270" fill="none" stroke="#FFCC00" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="220,201 304,201 304,248 385,248" fill="none" stroke="#0071E3" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="220,311 275,311 275,292 385,292" fill="none" stroke="#A2845E" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <polyline points="220,341 295,341 295,314 385,314" fill="none" stroke="#636366" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round" />
 
           <!-- Points de contact dorés -->
-          <circle cx="95" cy="171" r="3.5" fill="#D4AF37"/><circle cx="385" cy="160" r="3.5" fill="#D4AF37"/>
-          <circle cx="95" cy="201" r="3.5" fill="#D4AF37"/><circle cx="385" cy="182" r="3.5" fill="#D4AF37"/>
-          <circle cx="95" cy="231" r="3.5" fill="#D4AF37"/><circle cx="385" cy="204" r="3.5" fill="#D4AF37"/>
-          <circle cx="95" cy="261" r="3.5" fill="#D4AF37"/><circle cx="385" cy="226" r="3.5" fill="#D4AF37"/>
-          <circle cx="220" cy="171" r="3.5" fill="#D4AF37"/><circle cx="385" cy="270" r="3.5" fill="#D4AF37"/>
-          <circle cx="220" cy="201" r="3.5" fill="#D4AF37"/><circle cx="385" cy="248" r="3.5" fill="#D4AF37"/>
-          <circle cx="220" cy="311" r="3.5" fill="#D4AF37"/><circle cx="385" cy="292" r="3.5" fill="#D4AF37"/>
-          <circle cx="220" cy="341" r="3.5" fill="#D4AF37"/><circle cx="385" cy="314" r="3.5" fill="#D4AF37"/>
+          <circle cx="95" cy="171" r="3.5" fill="#D4AF37" />
+          <circle cx="385" cy="160" r="3.5" fill="#D4AF37" />
+          <circle cx="95" cy="201" r="3.5" fill="#D4AF37" />
+          <circle cx="385" cy="182" r="3.5" fill="#D4AF37" />
+          <circle cx="95" cy="231" r="3.5" fill="#D4AF37" />
+          <circle cx="385" cy="204" r="3.5" fill="#D4AF37" />
+          <circle cx="95" cy="261" r="3.5" fill="#D4AF37" />
+          <circle cx="385" cy="226" r="3.5" fill="#D4AF37" />
+          <circle cx="220" cy="171" r="3.5" fill="#D4AF37" />
+          <circle cx="385" cy="270" r="3.5" fill="#D4AF37" />
+          <circle cx="220" cy="201" r="3.5" fill="#D4AF37" />
+          <circle cx="385" cy="248" r="3.5" fill="#D4AF37" />
+          <circle cx="220" cy="311" r="3.5" fill="#D4AF37" />
+          <circle cx="385" cy="292" r="3.5" fill="#D4AF37" />
+          <circle cx="220" cy="341" r="3.5" fill="#D4AF37" />
+          <circle cx="385" cy="314" r="3.5" fill="#D4AF37" />
         </svg>
       </div>
 
       <!-- Table des connexions Apple Style -->
-      <div class="lg:col-span-6 bg-white rounded-3xl border border-black/[0.06] shadow-apple overflow-hidden">
+      <div
+        class="lg:col-span-6 bg-white rounded-3xl border border-black/[0.06] shadow-apple overflow-hidden scroll-reveal reveal-delay-2">
         <div class="px-6 py-4 border-b border-black/[0.06] bg-[#FAFAF8] flex items-center justify-between">
           <span class="text-xs font-semibold uppercase tracking-wider text-[#86868B]">Affectation des 8 broches</span>
           <span class="text-xs font-mono text-[#0071E3]">Bus SPI</span>
@@ -444,11 +674,13 @@
     </div>
 
     <!-- Protocole de montage complet étape par étape -->
-    <div class="mt-10 bg-white rounded-3xl p-6 sm:p-8 border border-black/[0.06] shadow-apple">
+    <div class="mt-10 bg-white rounded-3xl p-6 sm:p-8 border border-black/[0.06] shadow-apple scroll-reveal">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-black/[0.06]">
         <div>
-          <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Intégration &amp; Assemblage</span>
-          <h3 class="text-2xl font-bold tracking-tight text-[#1D1D1F] mt-1">Protocole de montage complet étape par étape</h3>
+          <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Intégration &amp;
+            Assemblage</span>
+          <h3 class="text-2xl font-bold tracking-tight text-[#1D1D1F] mt-1">Protocole de montage complet étape par étape
+          </h3>
         </div>
         <div class="flex items-center gap-2">
           <span class="text-xs font-mono text-[#86868B] bg-[#F5F5F7] px-3 py-1.5 rounded-full">Durée : ~20 min</span>
@@ -457,68 +689,89 @@
       </div>
 
       <!-- Schéma visuel de l'empilement mécanique -->
-      <div class="mt-6 bg-[#FAFAF8] rounded-2xl p-4 sm:p-5 border border-black/[0.04]">
+      <div class="mt-6 bg-[#FAFAF8] rounded-2xl p-4 sm:p-5 border border-black/[0.04] scroll-reveal">
         <div class="flex items-center justify-between text-xs font-medium text-[#86868B] mb-3">
           <span>ORDRE D'EMPILEMENT DU BOÎTIER (AVANT → ARRIÈRE)</span>
           <span class="font-mono">136 × 92.9 × 38 mm</span>
         </div>
         <svg viewBox="0 0 820 215" class="w-full h-auto" role="img" aria-label="Empilement mécanique du boîtier">
           <defs>
-            <marker id="step-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 10 5 L 0 9 z" fill="#86868B"/>
+            <marker id="step-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+              orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#86868B" />
             </marker>
           </defs>
           <!-- 1. Coque avant -->
           <g transform="translate(20, 20)">
-            <rect x="0" y="0" width="155" height="130" rx="14" fill="#D4AF37" fill-opacity="0.18" stroke="#D4AF37" stroke-width="2"/>
-            <rect x="22" y="20" width="111" height="75" rx="4" fill="#1D1D1F"/>
-            <text x="77" y="55" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="600">Fenêtre Écran</text>
-            <text x="77" y="68" text-anchor="middle" fill="#A1A1A6" font-family="JetBrains Mono, monospace" font-size="8.5">84.8 × 63.6 mm</text>
-            <rect x="48" y="120" width="58" height="10" rx="5" fill="#1D1D1F"/>
-            <text x="77" y="152" text-anchor="middle" fill="#1D1D1F" font-family="Inter, sans-serif" font-size="11.5" font-weight="600">1. Coque avant</text>
-            <text x="77" y="168" text-anchor="middle" fill="#86868B" font-family="Inter, sans-serif" font-size="9.5">PLA Doré + port USB-C</text>
+            <rect x="0" y="0" width="155" height="130" rx="14" fill="#D4AF37" fill-opacity="0.18" stroke="#D4AF37"
+              stroke-width="2" />
+            <rect x="22" y="20" width="111" height="75" rx="4" fill="#1D1D1F" />
+            <text x="77" y="55" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono, monospace"
+              font-size="9.5" font-weight="600">Fenêtre Écran</text>
+            <text x="77" y="68" text-anchor="middle" fill="#A1A1A6" font-family="JetBrains Mono, monospace"
+              font-size="8.5">84.8 × 63.6 mm</text>
+            <rect x="48" y="120" width="58" height="10" rx="5" fill="#1D1D1F" />
+            <text x="77" y="152" text-anchor="middle" fill="#1D1D1F" font-family="Inter, sans-serif" font-size="11.5"
+              font-weight="600">1. Coque avant</text>
+            <text x="77" y="168" text-anchor="middle" fill="#86868B" font-family="Inter, sans-serif" font-size="9.5">PLA
+              Doré + port USB-C</text>
           </g>
 
-          <line x1="185" y1="85" x2="222" y2="85" stroke="#86868B" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#step-arrow)"/>
+          <line x1="185" y1="85" x2="222" y2="85" stroke="#86868B" stroke-width="1.6" stroke-dasharray="4 3"
+            marker-end="url(#step-arrow)" />
 
           <!-- 2. Dalle + Entretoises -->
           <g transform="translate(232, 24)">
-            <rect x="0" y="0" width="155" height="122" rx="10" fill="#0A369D"/>
-            <rect x="14" y="11" width="127" height="82" rx="4" fill="#F5F5F7"/>
-            <text x="77" y="50" text-anchor="middle" fill="#1D1D1F" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="600">Waveshare 4.2″</text>
-            <text x="77" y="64" text-anchor="middle" fill="#86868B" font-family="JetBrains Mono, monospace" font-size="8.5">103 × 78.5 mm</text>
-            <circle cx="10" cy="10" r="4" fill="#D9A738"/>
-            <circle cx="145" cy="10" r="4" fill="#D9A738"/>
-            <circle cx="10" cy="112" r="4" fill="#D9A738"/>
-            <circle cx="145" cy="112" r="4" fill="#D9A738"/>
-            <text x="77" y="148" text-anchor="middle" fill="#1D1D1F" font-family="Inter, sans-serif" font-size="11.5" font-weight="600">2. Dalle &amp; Entretoises</text>
-            <text x="77" y="164" text-anchor="middle" fill="#86868B" font-family="Inter, sans-serif" font-size="9.5">4× laiton M2.5 (8.8 mm)</text>
+            <rect x="0" y="0" width="155" height="122" rx="10" fill="#0A369D" />
+            <rect x="14" y="11" width="127" height="82" rx="4" fill="#F5F5F7" />
+            <text x="77" y="50" text-anchor="middle" fill="#1D1D1F" font-family="JetBrains Mono, monospace"
+              font-size="9.5" font-weight="600">Waveshare 4.2″</text>
+            <text x="77" y="64" text-anchor="middle" fill="#86868B" font-family="JetBrains Mono, monospace"
+              font-size="8.5">103 × 78.5 mm</text>
+            <circle cx="10" cy="10" r="4" fill="#D9A738" />
+            <circle cx="145" cy="10" r="4" fill="#D9A738" />
+            <circle cx="10" cy="112" r="4" fill="#D9A738" />
+            <circle cx="145" cy="112" r="4" fill="#D9A738" />
+            <text x="77" y="148" text-anchor="middle" fill="#1D1D1F" font-family="Inter, sans-serif" font-size="11.5"
+              font-weight="600">2. Dalle &amp; Entretoises</text>
+            <text x="77" y="164" text-anchor="middle" fill="#86868B" font-family="Inter, sans-serif" font-size="9.5">4×
+              laiton M2.5 (8.8 mm)</text>
           </g>
 
-          <line x1="397" y1="85" x2="434" y2="85" stroke="#86868B" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#step-arrow)"/>
+          <line x1="397" y1="85" x2="434" y2="85" stroke="#86868B" stroke-width="1.6" stroke-dasharray="4 3"
+            marker-end="url(#step-arrow)" />
 
           <!-- 3. Platine & ESP32-S3 -->
           <g transform="translate(444, 24)">
-            <rect x="0" y="0" width="155" height="122" rx="10" fill="#D4AF37" fill-opacity="0.25" stroke="#D4AF37" stroke-width="1.8"/>
-            <rect x="52" y="22" width="50" height="98" rx="6" fill="#1D1D1F"/>
-            <rect x="61" y="31" width="32" height="24" rx="3" fill="#D8DDE2"/>
-            <text x="77" y="75" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="600">ESP32-S3</text>
-            <rect x="57" y="112" width="14" height="10" rx="2" fill="#D8DDE2"/>
-            <rect x="83" y="112" width="14" height="10" rx="2" fill="#D8DDE2"/>
-            <text x="77" y="148" text-anchor="middle" fill="#1D1D1F" font-family="Inter, sans-serif" font-size="11.5" font-weight="600">3. Platine &amp; ESP32-S3</text>
-            <text x="77" y="164" text-anchor="middle" fill="#86868B" font-family="Inter, sans-serif" font-size="9.5">Double USB-C vers le bas</text>
+            <rect x="0" y="0" width="155" height="122" rx="10" fill="#D4AF37" fill-opacity="0.25" stroke="#D4AF37"
+              stroke-width="1.8" />
+            <rect x="52" y="22" width="50" height="98" rx="6" fill="#1D1D1F" />
+            <rect x="61" y="31" width="32" height="24" rx="3" fill="#D8DDE2" />
+            <text x="77" y="75" text-anchor="middle" fill="#FFFFFF" font-family="JetBrains Mono, monospace"
+              font-size="8.5" font-weight="600">ESP32-S3</text>
+            <rect x="57" y="112" width="14" height="10" rx="2" fill="#D8DDE2" />
+            <rect x="83" y="112" width="14" height="10" rx="2" fill="#D8DDE2" />
+            <text x="77" y="148" text-anchor="middle" fill="#1D1D1F" font-family="Inter, sans-serif" font-size="11.5"
+              font-weight="600">3. Platine &amp; ESP32-S3</text>
+            <text x="77" y="164" text-anchor="middle" fill="#86868B" font-family="Inter, sans-serif"
+              font-size="9.5">Double USB-C vers le bas</text>
           </g>
 
-          <line x1="609" y1="85" x2="646" y2="85" stroke="#86868B" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#step-arrow)"/>
+          <line x1="609" y1="85" x2="646" y2="85" stroke="#86868B" stroke-width="1.6" stroke-dasharray="4 3"
+            marker-end="url(#step-arrow)" />
 
           <!-- 4. Capot arrière -->
           <g transform="translate(656, 22)">
-            <rect x="0" y="0" width="144" height="126" rx="12" fill="#D4AF37" fill-opacity="0.18" stroke="#D4AF37" stroke-width="2"/>
-            <circle cx="48" cy="48" r="10" fill="#FFFFFF" stroke="#D4AF37" stroke-width="1.5"/>
-            <circle cx="96" cy="78" r="10" fill="#FFFFFF" stroke="#D4AF37" stroke-width="1.5"/>
-            <text x="72" y="112" text-anchor="middle" fill="#86868B" font-family="JetBrains Mono, monospace" font-size="8">Ép. 4.0 mm</text>
-            <text x="72" y="150" text-anchor="middle" fill="#1D1D1F" font-family="Inter, sans-serif" font-size="11.5" font-weight="600">4. Capot arrière</text>
-            <text x="72" y="166" text-anchor="middle" fill="#86868B" font-family="Inter, sans-serif" font-size="9.5">Fermeture + rail mural</text>
+            <rect x="0" y="0" width="144" height="126" rx="12" fill="#D4AF37" fill-opacity="0.18" stroke="#D4AF37"
+              stroke-width="2" />
+            <circle cx="48" cy="48" r="10" fill="#FFFFFF" stroke="#D4AF37" stroke-width="1.5" />
+            <circle cx="96" cy="78" r="10" fill="#FFFFFF" stroke="#D4AF37" stroke-width="1.5" />
+            <text x="72" y="112" text-anchor="middle" fill="#86868B" font-family="JetBrains Mono, monospace"
+              font-size="8">Ép. 4.0 mm</text>
+            <text x="72" y="150" text-anchor="middle" fill="#1D1D1F" font-family="Inter, sans-serif" font-size="11.5"
+              font-weight="600">4. Capot arrière</text>
+            <text x="72" y="166" text-anchor="middle" fill="#86868B" font-family="Inter, sans-serif"
+              font-size="9.5">Fermeture + rail mural</text>
           </g>
         </svg>
       </div>
@@ -527,79 +780,122 @@
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         <!-- 7 Étapes détaillées -->
         <div class="lg:col-span-8 space-y-3.5">
-          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04]">
-            <div class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">01</div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04] scroll-reveal">
+            <div
+              class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">
+              01</div>
             <div>
-              <h4 class="text-sm font-semibold text-[#1D1D1F]">Préparation et contrôle des 3 pièces imprimées en PLA Doré</h4>
+              <h4 class="text-sm font-semibold text-[#1D1D1F]">Préparation et contrôle des 3 pièces imprimées en PLA
+                Doré</h4>
               <p class="text-xs text-[#86868B] mt-1 leading-relaxed">
-                Vérifier l'ébavurage de la fenêtre avant (<code class="font-mono text-[#1D1D1F]">84.8 × 63.6 mm</code>) et de l'ouverture oblongue inférieure USB-C (<code class="font-mono text-[#1D1D1F]">24 × 9 mm</code>) sur la coque avant. Contrôler que la platine interne et le capot arrière (<code class="font-mono text-[#1D1D1F]">ép. 4.0 mm</code>) s'insèrent sans forcer.
+                Vérifier l'ébavurage de la fenêtre avant (<code class="font-mono text-[#1D1D1F]">84.8 × 63.6 mm</code>)
+                et de l'ouverture oblongue inférieure USB-C (<code class="font-mono text-[#1D1D1F]">24 × 9 mm</code>)
+                sur la coque avant. Contrôler que la platine interne et le capot arrière (<code
+                  class="font-mono text-[#1D1D1F]">ép. 4.0 mm</code>) s'insèrent sans forcer.
               </p>
             </div>
           </div>
 
-          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04]">
-            <div class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">02</div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04] scroll-reveal">
+            <div
+              class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">
+              02</div>
             <div>
               <h4 class="text-sm font-semibold text-[#1D1D1F]">Mise en place de la dalle E-Paper Waveshare 4.2″</h4>
               <p class="text-xs text-[#86868B] mt-1 leading-relaxed">
-                Retirer le film protecteur de la surface d'affichage. Poser la coque avant face contre un chiffon doux, puis insérer le module Waveshare (<code class="font-mono text-[#1D1D1F]">103 × 78.5 mm</code>) face écran vers l'avant en respectant le décalage vertical (<code class="font-mono text-[#1D1D1F]">view_dy = 4.7 mm</code>) afin que le connecteur JST reste orienté vers le bas.
+                Retirer le film protecteur de la surface d'affichage. Poser la coque avant face contre un chiffon doux,
+                puis insérer le module Waveshare (<code class="font-mono text-[#1D1D1F]">103 × 78.5 mm</code>) face
+                écran vers l'avant en respectant le décalage vertical (<code
+                  class="font-mono text-[#1D1D1F]">view_dy = 4.7 mm</code>) afin que le connecteur JST reste orienté
+                vers le bas.
               </p>
             </div>
           </div>
 
-          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04]">
-            <div class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">03</div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04] scroll-reveal">
+            <div
+              class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">
+              03</div>
             <div>
-              <h4 class="text-sm font-semibold text-[#1D1D1F]">Fixation des 4 entretoises laiton M2.5 (hauteur 8.8 mm)</h4>
+              <h4 class="text-sm font-semibold text-[#1D1D1F]">Fixation des 4 entretoises laiton M2.5 (hauteur 8.8 mm)
+              </h4>
               <p class="text-xs text-[#86868B] mt-1 leading-relaxed">
-                Visser les quatre entretoises filetées M2.5 de <code class="font-mono text-[#1D1D1F]">8.8 mm</code> aux quatre coins du PCB bleu de l'écran (<code class="font-mono text-[#1D1D1F]">±48.3 × ±36.0 mm</code>). Elles plaquent uniformément la dalle contre la façade tout en créant la chambre de câblage SPI.
+                Visser les quatre entretoises filetées M2.5 de <code class="font-mono text-[#1D1D1F]">8.8 mm</code> aux
+                quatre coins du PCB bleu de l'écran (<code class="font-mono text-[#1D1D1F]">±48.3 × ±36.0 mm</code>).
+                Elles plaquent uniformément la dalle contre la façade tout en créant la chambre de câblage SPI.
               </p>
             </div>
           </div>
 
-          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04]">
-            <div class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">04</div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04] scroll-reveal">
+            <div
+              class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">
+              04</div>
             <div>
               <h4 class="text-sm font-semibold text-[#1D1D1F]">Branchement du faisceau SPI 8 fils sur l'ESP32-S3</h4>
               <p class="text-xs text-[#86868B] mt-1 leading-relaxed">
-                Enficher le connecteur JST-PH 8 broches sur le module Waveshare, puis raccorder chaque fil femelle sur les broches de l'<strong class="text-[#1D1D1F]">ESP32-S3-N16R8</strong> en suivant le tableau ci-dessus : <code class="font-mono text-[#1D1D1F]">VCC→3V3</code>, <code class="font-mono text-[#1D1D1F]">GND→GND</code>, <code class="font-mono text-[#1D1D1F]">DIN→11</code>, <code class="font-mono text-[#1D1D1F]">CLK→12</code>, <code class="font-mono text-[#1D1D1F]">CS→5</code>, <code class="font-mono text-[#1D1D1F]">DC→17</code>, <code class="font-mono text-[#1D1D1F]">RST→16</code> et <code class="font-mono text-[#1D1D1F]">BUSY→4</code>.
+                Enficher le connecteur JST-PH 8 broches sur le module Waveshare, puis raccorder chaque fil femelle sur
+                les broches de l'<strong class="text-[#1D1D1F]">ESP32-S3-N16R8</strong> en suivant le tableau ci-dessus
+                : <code class="font-mono text-[#1D1D1F]">VCC→3V3</code>, <code
+                  class="font-mono text-[#1D1D1F]">GND→GND</code>, <code class="font-mono text-[#1D1D1F]">DIN→11</code>,
+                <code class="font-mono text-[#1D1D1F]">CLK→12</code>, <code
+                  class="font-mono text-[#1D1D1F]">CS→5</code>, <code class="font-mono text-[#1D1D1F]">DC→17</code>,
+                <code class="font-mono text-[#1D1D1F]">RST→16</code> et <code
+                  class="font-mono text-[#1D1D1F]">BUSY→4</code>.
               </p>
             </div>
           </div>
 
-          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04]">
-            <div class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">05</div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04] scroll-reveal">
+            <div
+              class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">
+              05</div>
             <div>
-              <h4 class="text-sm font-semibold text-[#1D1D1F]">Montage de l'ESP32-S3 sur la platine &amp; alignement USB-C</h4>
+              <h4 class="text-sm font-semibold text-[#1D1D1F]">Montage de l'ESP32-S3 sur la platine &amp; alignement
+                USB-C</h4>
               <p class="text-xs text-[#86868B] mt-1 leading-relaxed">
-                Fixer l'ESP32-S3 sur la platine support intermédiaire en orientant ses deux ports USB-C vers le bas. Visser la platine sur les 4 entretoises M2.5 : les embases USB-C viennent s'aligner exactement en face de la découpe inférieure de <code class="font-mono text-[#1D1D1F]">24 × 9 mm</code>.
+                Fixer l'ESP32-S3 sur la platine support intermédiaire en orientant ses deux ports USB-C vers le bas.
+                Visser la platine sur les 4 entretoises M2.5 : les embases USB-C viennent s'aligner exactement en face
+                de la découpe inférieure de <code class="font-mono text-[#1D1D1F]">24 × 9 mm</code>.
               </p>
             </div>
           </div>
 
-          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04]">
-            <div class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">06</div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-[#F5F5F7] border border-black/[0.04] scroll-reveal">
+            <div
+              class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] font-mono text-xs font-bold text-[#1D1D1F] flex items-center justify-center shrink-0 shadow-2xs">
+              06</div>
             <div>
-              <h4 class="text-sm font-semibold text-[#1D1D1F]">Fermeture du capot arrière &amp; fixation murale optionnelle</h4>
+              <h4 class="text-sm font-semibold text-[#1D1D1F]">Fermeture du capot arrière &amp; fixation murale
+                optionnelle</h4>
               <p class="text-xs text-[#86868B] mt-1 leading-relaxed">
-                Positionner le capot arrière en PLA Doré à l'arrière de la coque avant en veillant à ne pincer aucun fil Dupont. Les deux plots arrière (<code class="font-mono text-[#1D1D1F]">Ø 10 mm</code>) permettent d'accrocher le boîtier au mur ou de le poser directement sur le bureau.
+                Positionner le capot arrière en PLA Doré à l'arrière de la coque avant en veillant à ne pincer aucun fil
+                Dupont. Les deux plots arrière (<code class="font-mono text-[#1D1D1F]">Ø 10 mm</code>) permettent
+                d'accrocher le boîtier au mur ou de le poser directement sur le bureau.
               </p>
             </div>
           </div>
 
-          <div class="flex gap-4 p-4 rounded-2xl bg-[#0071E3]/[0.06] border border-[#0071E3]/20">
-            <div class="w-8 h-8 rounded-xl bg-[#0071E3] font-mono text-xs font-bold text-white flex items-center justify-center shrink-0 shadow-2xs">07</div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-[#0071E3]/[0.06] border border-[#0071E3]/20 scroll-reveal">
+            <div
+              class="w-8 h-8 rounded-xl bg-[#0071E3] font-mono text-xs font-bold text-white flex items-center justify-center shrink-0 shadow-2xs">
+              07</div>
             <div>
-              <h4 class="text-sm font-semibold text-[#1D1D1F]">Flash du firmware, alimentation USB-C &amp; test de synchronisation</h4>
+              <h4 class="text-sm font-semibold text-[#1D1D1F]">Flash du firmware, alimentation USB-C &amp; test de
+                synchronisation</h4>
               <p class="text-xs text-[#86868B] mt-1 leading-relaxed">
-                Brancher un câble USB-C par le dessous du boîtier (port UART/USB), téléverser <code class="font-mono text-[#1D1D1F]">main.cpp</code> après avoir renseigné le Wi-Fi et l'URL Google Apps Script. L'écran effectue un flash noir/blanc puis affiche l'heure NTP, l'agenda Pronote et les rappels iCloud.
+                Brancher un câble USB-C par le dessous du boîtier (port UART/USB), téléverser <code
+                  class="font-mono text-[#1D1D1F]">main.cpp</code> après avoir renseigné le Wi-Fi et l'URL Google Apps
+                Script. L'écran effectue un flash noir/blanc puis affiche l'heure NTP, l'agenda Pronote et les rappels
+                iCloud.
               </p>
             </div>
           </div>
         </div>
 
         <!-- Colonne droite : Liste du matériel & Conseils -->
-        <div class="lg:col-span-4 flex flex-col justify-between bg-[#F5F5F7] rounded-2xl p-5 border border-black/[0.04]">
+        <div
+          class="lg:col-span-4 flex flex-col justify-between bg-[#F5F5F7] rounded-2xl p-5 border border-black/[0.04] scroll-reveal reveal-delay-2">
           <div>
             <span class="text-xs font-semibold uppercase tracking-wider text-[#86868B]">Nomenclature (BOM)</span>
             <h4 class="text-base font-semibold text-[#1D1D1F] mt-1 mb-4">Pièces &amp; Quincaillerie</h4>
@@ -636,9 +932,11 @@
             </ul>
           </div>
 
-          <div class="mt-6 p-4 rounded-xl bg-white border border-black/[0.06] text-xs leading-relaxed text-[#1D1D1F] shadow-2xs">
+          <div
+            class="mt-6 p-4 rounded-xl bg-white border border-black/[0.06] text-xs leading-relaxed text-[#1D1D1F] shadow-2xs">
             <span class="font-semibold text-[#0071E3] block mb-1">Conseil d'assemblage</span>
-            Ne jamais appuyer directement au centre de la dalle E-Paper lors de l'insertion : exercer la pression uniquement sur les bords du circuit imprimé bleu.
+            Ne jamais appuyer directement au centre de la dalle E-Paper lors de l'insertion : exercer la pression
+            uniquement sur les bords du circuit imprimé bleu.
           </div>
         </div>
       </div>
@@ -646,14 +944,14 @@
   </section>
 
   <!-- Section 5 : Explorateur de Code macOS Style -->
-  <section id="code" class="scroll-mt-20 max-w-6xl mx-auto px-6 py-12 mb-16">
+  <section id="code" class="scroll-mt-20 max-w-6xl mx-auto px-6 py-12 mb-16 scroll-reveal">
     <div class="flex items-center justify-between mb-6">
       <div>
         <span class="text-xs uppercase tracking-wider font-semibold text-[#0071E3]">Dépôt Open Source</span>
         <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#1D1D1F] mt-1">Code Source &amp; Fichiers 3D</h2>
       </div>
       <button type="button" id="copy-code-btn" onclick="copyCurrentCode()"
-              class="px-4 py-2 rounded-xl bg-white border border-black/[0.08] text-xs font-semibold text-[#1D1D1F] hover:bg-[#F5F5F7] shadow-xs transition-all flex items-center gap-1.5">
+        class="px-4 py-2 rounded-xl bg-white border border-black/[0.08] text-xs font-semibold text-[#1D1D1F] hover:bg-[#F5F5F7] shadow-xs transition-all flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5 text-[#86868B]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -676,44 +974,93 @@
         <!-- Segmented Tab Picker -->
         <div class="flex items-center gap-1 bg-[#1E1E1E] p-1 rounded-xl text-xs font-mono">
           <button type="button" id="tab-btn-cpp" onclick="switchCodeTab('cpp')"
-                  class="px-3 py-1 rounded-lg bg-[#3A3A3C] text-white font-medium transition-all">
+            class="px-3 py-1 rounded-lg bg-[#3A3A3C] text-white font-medium transition-all">
             main.cpp
           </button>
           <button type="button" id="tab-btn-gs" onclick="switchCodeTab('gs')"
-                  class="px-3 py-1 rounded-lg text-[#86868B] hover:text-white transition-all">
+            class="px-3 py-1 rounded-lg text-[#86868B] hover:text-white transition-all">
             Code.gs
           </button>
           <button type="button" id="tab-btn-scad" onclick="switchCodeTab('scad')"
-                  class="px-3 py-1 rounded-lg text-[#86868B] hover:text-white transition-all">
+            class="px-3 py-1 rounded-lg text-[#86868B] hover:text-white transition-all">
             boitier.scad
           </button>
         </div>
       </div>
 
       <!-- Code viewer -->
-      <pre class="p-6 text-[#E5E5EA] font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto max-h-[460px] selection:bg-[#0071E3]/40"><code id="code-display"></code></pre>
+      <pre
+        class="p-6 text-[#E5E5EA] font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto max-h-[460px] selection:bg-[#0071E3]/40"><code id="code-display"></code></pre>
     </div>
   </section>
 
   <!-- Apple Global Footer -->
-  <footer class="border-t border-black/[0.08] bg-[#F5F5F7] py-12 text-[#86868B] text-xs font-sans">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        Copyright © 2025 <strong class="text-[#1D1D1F]">Clem He</strong>. Tous droits réservés.
+  <footer class="border-t border-black/[0.08] bg-[#F5F5F7] pt-14 pb-12 text-[#86868B] text-xs font-sans scroll-reveal">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Partie supérieure : Présentation, Contact E-mail & Liens -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-black/[0.06]">
+
+        <!-- Colonne gauche : Identité du projet -->
+        <div class="md:col-span-6 space-y-3">
+          <div class="flex items-center gap-2.5 text-[#1D1D1F]">
+            <div
+              class="w-6 h-6 rounded-lg bg-black text-white flex items-center justify-center font-mono text-[11px] font-bold">
+              CH
+            </div>
+            <span class="font-semibold text-sm tracking-tight">Clem He <span class="text-[#86868B] font-normal">/ Smart
+                Desk E-Paper</span></span>
+          </div>
+          <p class="text-xs text-[#86868B] max-w-md leading-relaxed">
+            Station d’affichage intelligente autonome conçue autour de l’ESP32-S3, d’une dalle E-Ink 4.2″ et de
+            l’écosystème Apple. Projet matériel et logiciel open source.
+          </p>
+        </div>
+
+        <!-- Colonne droite : Contact direct -->
+        <div class="md:col-span-6 md:flex md:flex-col md:items-end justify-between">
+          <div class="md:text-right">
+            <span class="text-[11px] uppercase tracking-wider font-semibold text-[#86868B] block mb-2">
+              Contact &amp; Collaborations
+            </span>
+            <a href="mailtolilydublove1@gmail.com"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-black/[0.08] text-[#1D1D1F] font-mono text-xs font-medium hover:border-[#0071E3] hover:text-[#0071E3] shadow-2xs transition-all">
+              <svg class="w-3.5 h-3.5 text-[#0071E3]" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span>lilydublove1@gmail.com</span>
+            </a>
+          </div>
+        </div>
+
       </div>
-      <div class="flex items-center gap-6">
-        <span>ESP32-S3</span>
-        <span>Waveshare 4.2″</span>
-        <span>Three.js 3D</span>
-        <span>Apple Shortcuts API</span>
+
+      <!-- Partie inférieure : Copyright & Mentions -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+        <div>
+          Copyright © 2026 <strong class="text-[#1D1D1F] font-medium">Clem He</strong>. Tous droits réservés. Code
+          source publié sous licence open source MIT.
+        </div>
+        <div class="flex flex-wrap items-center gap-5">
+          <a href="https://github.com/clementheintz/station-d-affichage-intelligente" target="_blank"
+            rel="noopener noreferrer" class="hover:text-[#1D1D1F] transition-colors">
+            Dépôt GitHub
+          </a>
+          <a href="#apercu-3d" class="hover:text-[#1D1D1F] transition-colors">Modèle 3D</a>
+          <a href="#cablage" class="hover:text-[#1D1D1F] transition-colors">Pinout SPI</a>
+          <a href="#" class="text-[#1D1D1F] font-medium hover:text-[#0071E3] transition-colors">Haut de page ↑</a>
+        </div>
       </div>
+
     </div>
   </footer>
 
-  <!-- Script Three.js + E-Paper Renderer + Tabs + Nav Zoom -->
+  <!-- Script Three.js + E-Paper Renderer + Tabs + Nav Zoom + HUD Futuriste & Reveal -->
   <script>
     // =========================================================================
-    // 0. GESTION DE L'ONGLET ACTIF DANS LA BARRE DE NAVIGATION
+    // 0. GESTION DE L'ONGLET ACTIF + HUD LATÉRAL FUTURISTE AU SCROLL
     // =========================================================================
     function setActiveNav(id) {
       document.querySelectorAll('.nav-zoom-link').forEach((link) => {
@@ -723,6 +1070,14 @@
           link.classList.remove('is-active');
         }
       });
+
+      document.querySelectorAll('.hud-node').forEach((node) => {
+        if (node.getAttribute('data-hud') === id) {
+          node.classList.add('is-active');
+        } else {
+          node.classList.remove('is-active');
+        }
+      });
     }
 
     document.querySelectorAll('.nav-zoom-link').forEach((link) => {
@@ -730,6 +1085,30 @@
         setActiveNav(link.getAttribute('data-nav'));
       });
     });
+
+    document.querySelectorAll('.hud-node').forEach((node) => {
+      node.addEventListener('click', () => {
+        setActiveNav(node.getAttribute('data-hud'));
+      });
+    });
+
+    function updateScrollProgress() {
+      const verticalBar = document.getElementById('scroll-progress-vertical');
+      const percentText = document.getElementById('scroll-percent-text');
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+
+      if (verticalBar) {
+        verticalBar.style.height = `${pct}%`;
+      }
+      if (percentText) {
+        percentText.textContent = `${String(Math.round(pct)).padStart(2, '0')}%`;
+      }
+    }
+
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('resize', updateScrollProgress, { passive: true });
 
     // =========================================================================
     // 1. GESTION DE LA DALLE E-PAPER (CANVAS TEXTURE 400x300)
@@ -865,7 +1244,7 @@
       triggerEpaperRefresh();
     }
 
-    document.getElementById('task-form').addEventListener('submit', function(e) {
+    document.getElementById('task-form').addEventListener('submit', function (e) {
       e.preventDefault();
       const input = document.getElementById('new-task-input');
       const val = input.value.trim();
@@ -921,7 +1300,6 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.outputEncoding = THREE.sRGBEncoding;
 
-      // Éclairage Apple Studio épuré
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.78);
       scene.add(ambientLight);
 
@@ -940,7 +1318,6 @@
       pivotGroup = new THREE.Group();
       scene.add(pivotGroup);
 
-      // Matériaux Apple Pro Gold
       const goldMaterial = new THREE.MeshStandardMaterial({
         color: 0xD4AF37,
         metalness: 0.45,
@@ -971,7 +1348,6 @@
         roughness: 0.3
       });
 
-      // Groupe Face Avant
       groupFront = new THREE.Group();
       pivotGroup.add(groupFront);
 
@@ -1005,7 +1381,6 @@
       frontPlate.position.z = SCAD.front_depth / 2 - SCAD.plate_t;
       groupFront.add(frontPlate);
 
-      // Parois
       const wallsDepth = SCAD.front_depth - SCAD.plate_t;
       const wallThick = SCAD.wall;
       const rOut = SCAD.corner_r;
@@ -1039,7 +1414,6 @@
         groupFront.add(cornerMesh);
       });
 
-      // Paroi USB
       const botLen = SCAD.outer_w - 2 * rOut;
       const botWallShape = new THREE.Shape();
       botWallShape.moveTo(-botLen / 2, 0);
@@ -1069,7 +1443,6 @@
       botWallMesh.position.set(0, -SCAD.outer_h / 2, -SCAD.front_depth / 2);
       groupFront.add(botWallMesh);
 
-      // Texture Écran E-Paper Live
       renderEpaperTexture(false);
       screenTexture = new THREE.CanvasTexture(epaperCanvas);
       screenTexture.minFilter = THREE.LinearFilter;
@@ -1092,7 +1465,6 @@
         groupFront.add(st);
       });
 
-      // Platine interne
       groupPlatine = new THREE.Group();
       pivotGroup.add(groupPlatine);
 
@@ -1120,7 +1492,6 @@
       espGroup.position.set(0, -SCAD.view_dy - 5.5, zPlatine - 3.6);
       groupPlatine.add(espGroup);
 
-      // Capot arrière
       groupCover = new THREE.Group();
       pivotGroup.add(groupCover);
 
@@ -1138,7 +1509,6 @@
         groupCover.add(stud);
       });
 
-      // Drag & Zoom
       let isDragging = false;
       let prevX = 0;
       let prevY = 0;
@@ -1313,7 +1683,7 @@ function doPost(e) {
   return ContentService.createTextOutput("OK");
 }`,
       scad: `// =========================================================================
-// OPENSCAD — Boîtier usiné PLA Doré pour Waveshare 4.2" & ESP32-S3
+// OPENSCAD — Boîtie PLA Doré pour Waveshare 4.2" & ESP32-S3
 // =========================================================================
 $fn = 60;
 outer_w = 136.0;
@@ -1367,14 +1737,16 @@ boitier_complet();`
       });
     }
 
-    // Initialisation au chargement + suivi des sections au scroll
+    // Initialisation au chargement + suivi des sections + fondu au scroll
     window.addEventListener('DOMContentLoaded', () => {
       renderTasksUI();
       switchCodeTab('cpp');
       init3D();
+      updateScrollProgress();
 
+      // Suivi de la section active dans la navigation + HUD latéral
       const sectionIds = ['apercu-3d', 'architecture', 'cablage', 'code'];
-      const observer = new IntersectionObserver((entries) => {
+      const navObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveNav(entry.target.id);
@@ -1384,9 +1756,24 @@ boitier_complet();`
 
       sectionIds.forEach((id) => {
         const el = document.getElementById(id);
-        if (el) observer.observe(el);
+        if (el) navObserver.observe(el);
+      });
+
+      // Animation d'apparition progressive au défilement
+      const revealObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.scroll-reveal').forEach((el) => {
+        revealObserver.observe(el);
       });
     });
   </script>
 </body>
+
 </html>
